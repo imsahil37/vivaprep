@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Executive Summary & Viva Prep: UPI vs. Credit Cards</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -18,10 +23,17 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(229, 231, 235, 0.5);
         }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+        }
         .viva-q {
             font-weight: 600;
             color: #1e293b;
             margin-bottom: 0.5rem;
+        }
+        .dark .viva-q {
+            color: #e2e8f0;
         }
         .viva-a {
             color: #475569;
@@ -29,6 +41,9 @@
             line-height: 1.6;
             padding-left: 1rem;
             border-left: 3px solid #6366f1;
+        }
+        .dark .viva-a {
+            color: #94a3b8;
         }
         .timeline-item {
             position: relative;
@@ -77,26 +92,32 @@
         }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased transition-colors duration-300">
 
     <!-- Navigation / Quick Links -->
-    <nav class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200">
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
         <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <span class="font-bold text-indigo-900">Research Synopsis 2026</span>
-            <div class="space-x-4 text-sm font-medium">
-                <a href="#summary" class="text-slate-600 hover:text-indigo-600 transition">Summary</a>
-                <a href="#timeline" class="text-slate-600 hover:text-indigo-600 transition">Timeline</a>
-                <a href="#concepts" class="text-slate-600 hover:text-indigo-600 transition">Concepts</a>
-                <a href="#methodology" class="text-slate-600 hover:text-indigo-600 transition">Methodology</a>
+            <span class="font-bold text-indigo-900 dark:text-indigo-400">Research Synopsis 2026</span>
+            <div class="flex items-center space-x-4 text-sm font-medium">
+                <div class="hidden md:flex space-x-4">
+                    <a href="#summary" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Summary</a>
+                    <a href="#timeline" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Timeline</a>
+                    <a href="#concepts" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Concepts</a>
+                    <a href="#methodology" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition">Methodology</a>
+                </div>
                 <a href="#viva-section" class="px-4 py-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-700 transition shadow-md">
                     <i class="fas fa-graduation-cap mr-2"></i>Viva Prep
                 </a>
+                <button onclick="toggleTheme()" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:inline"></i>
+                </button>
             </div>
         </div>
     </nav>
 
     <!-- Header -->
-    <header id="summary" class="bg-gradient-to-r from-slate-900 to-slate-800 text-white py-12 shadow-xl">
+    <header id="summary" class="bg-gradient-to-r from-slate-900 to-slate-800 dark:from-slate-950 dark:to-slate-900 text-white py-12 shadow-xl">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row justify-between items-center">
                 <div>
@@ -118,10 +139,10 @@
         <!-- Thesis Section -->
         <section class="mb-14">
             <div class="glass-card rounded-2xl shadow-lg p-8 border-l-8 border-indigo-600">
-                <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center">
-                    <i class="fas fa-lightbulb text-indigo-600 mr-3"></i> Core Thesis
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                    <i class="fas fa-lightbulb text-indigo-600 dark:text-indigo-400 mr-3"></i> Core Thesis
                 </h2>
-                <p class="text-lg text-slate-700 leading-relaxed">
+                <p class="text-lg text-slate-700 dark:text-slate-300 leading-relaxed">
                     The Indian payment ecosystem is witnessing a battle between the <strong>Habit of the Swipe</strong> and the <strong>Convenience of the Scan</strong>. This research identifies a massive "Infrastructure Asymmetry" where ubiquitous QR codes challenge the limited reach of POS terminals. The study concludes that while total substitution is unlikely immediately, a <strong>"Bifurcated Spending Model"</strong> is emerging: UPI for daily essentials, and Plastic Cards restricted to high-value luxury.
                 </p>
             </div>
@@ -131,27 +152,27 @@
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-14">
             <!-- Metric 1: Infrastructure Gap -->
             <div class="glass-card p-6 rounded-xl shadow-md text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="text-indigo-600 text-5xl font-black mb-2">60 : 1</div>
-                <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Acceptance Gap</div>
-                <p class="mt-3 text-slate-600 text-sm font-medium">650M+ QR Codes vs. only 11M POS Terminals.</p>
+                <div class="text-indigo-600 dark:text-indigo-400 text-5xl font-black mb-2">60 : 1</div>
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Acceptance Gap</div>
+                <p class="mt-3 text-slate-600 dark:text-slate-300 text-sm font-medium">650M+ QR Codes vs. only 11M POS Terminals.</p>
             </div>
             <!-- Metric 2: ATS Ratio -->
             <div class="glass-card p-6 rounded-xl shadow-md text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="text-emerald-600 text-5xl font-black mb-2">3.6x</div>
-                <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Ticket Size Multiple</div>
-                <p class="mt-3 text-slate-600 text-sm font-medium">Card spends (₹5,300) are 3.6x higher than UPI (₹1,480).</p>
+                <div class="text-emerald-600 dark:text-emerald-400 text-5xl font-black mb-2">3.6x</div>
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Ticket Size Multiple</div>
+                <p class="mt-3 text-slate-600 dark:text-slate-300 text-sm font-medium">Card spends (₹5,300) are 3.6x higher than UPI (₹1,480).</p>
             </div>
             <!-- Metric 3: Gen Z Behavior -->
             <div class="glass-card p-6 rounded-xl shadow-md text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="text-purple-600 text-5xl font-black mb-2">78%</div>
-                <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">Gen Z "Wallet-less"</div>
-                <p class="mt-3 text-slate-600 text-sm font-medium">Respondents (18-25y) who frequently leave home without a physical wallet.</p>
+                <div class="text-purple-600 dark:text-purple-400 text-5xl font-black mb-2">78%</div>
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Gen Z "Wallet-less"</div>
+                <p class="mt-3 text-slate-600 dark:text-slate-300 text-sm font-medium">Respondents (18-25y) who frequently leave home without a physical wallet.</p>
             </div>
             <!-- Metric 4: Merchant Resistance -->
             <div class="glass-card p-6 rounded-xl shadow-md text-center hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
-                <div class="text-red-600 text-5xl font-black mb-2">90%</div>
-                <div class="text-xs font-bold text-slate-500 uppercase tracking-widest">MDR Resistance</div>
-                <p class="mt-3 text-slate-600 text-sm font-medium">Small merchants unwilling to pay fees on Credit-UPI transactions.</p>
+                <div class="text-red-600 dark:text-red-400 text-5xl font-black mb-2">90%</div>
+                <div class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">MDR Resistance</div>
+                <p class="mt-3 text-slate-600 dark:text-slate-300 text-sm font-medium">Small merchants unwilling to pay fees on Credit-UPI transactions.</p>
             </div>
         </section>
 
@@ -159,60 +180,60 @@
         <section class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-14">
             <!-- Infrastructure Chart -->
             <div class="glass-card p-8 rounded-2xl shadow-lg">
-                <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center">
                     <i class="fas fa-network-wired text-indigo-500 mr-2"></i> The Infrastructure Asymmetry
                 </h3>
                 <div class="chart-container">
                     <canvas id="infraChart"></canvas>
                 </div>
-                <p class="mt-4 text-sm text-slate-500 text-center italic">Deployment units in Millions (2025 Est.)</p>
+                <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 text-center italic">Deployment units in Millions (2025 Est.)</p>
             </div>
             <!-- ATS Gap Chart -->
             <div class="glass-card p-8 rounded-2xl shadow-lg">
-                <h3 class="text-xl font-bold text-slate-900 mb-6 flex items-center">
+                <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100 mb-6 flex items-center">
                     <i class="fas fa-receipt text-emerald-500 mr-2"></i> The Average Ticket Size (ATS) Gap
                 </h3>
                 <div class="chart-container">
                     <canvas id="atsChart"></canvas>
                 </div>
-                <p class="mt-4 text-sm text-slate-500 text-center italic">Values in Indian Rupee (₹)</p>
+                <p class="mt-4 text-sm text-slate-500 dark:text-slate-400 text-center italic">Values in Indian Rupee (₹)</p>
             </div>
         </section>
 
         <!-- Insights & Findings -->
         <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-14">
             <!-- Findings -->
-            <div class="bg-indigo-50 p-8 rounded-2xl border border-indigo-100">
-                <h3 class="text-xl font-bold text-indigo-900 mb-4 flex items-center">
-                    <i class="fas fa-search text-indigo-600 mr-2"></i> Key Findings
+            <div class="bg-indigo-50 dark:bg-indigo-900/30 p-8 rounded-2xl border border-indigo-100 dark:border-indigo-800">
+                <h3 class="text-xl font-bold text-indigo-900 dark:text-indigo-300 mb-4 flex items-center">
+                    <i class="fas fa-search text-indigo-600 dark:text-indigo-400 mr-2"></i> Key Findings
                 </h3>
-                <ul class="space-y-4 text-indigo-800 text-sm md:text-base">
+                <ul class="space-y-4 text-indigo-800 dark:text-indigo-200 text-sm md:text-base">
                     <li class="flex items-start">
-                        <i class="fas fa-check-circle mt-1 mr-3 text-indigo-500"></i>
+                        <i class="fas fa-check-circle mt-1 mr-3 text-indigo-500 dark:text-indigo-400"></i>
                         <span><strong>Generational Divide:</strong> The physical card is becoming obsolete for Gen Z, while Gen X retains it for perceived security.</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-check-circle mt-1 mr-3 text-indigo-500"></i>
+                        <i class="fas fa-check-circle mt-1 mr-3 text-indigo-500 dark:text-indigo-400"></i>
                         <span><strong>Bifurcated Spending:</strong> UPI dominates micro-transactions (< ₹2k), while Cards rule macro-transactions (> ₹5k).</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-check-circle mt-1 mr-3 text-indigo-500"></i>
+                        <i class="fas fa-check-circle mt-1 mr-3 text-indigo-500 dark:text-indigo-400"></i>
                         <span><strong>Merchant Barrier:</strong> The 2% MDR on Credit-UPI is the single biggest friction point preventing universal adoption by small retailers.</span>
                     </li>
                 </ul>
             </div>
             <!-- Recommendations -->
-            <div class="bg-emerald-50 p-8 rounded-2xl border border-emerald-100">
-                <h3 class="text-xl font-bold text-emerald-900 mb-4 flex items-center">
-                    <i class="fas fa-rocket text-emerald-600 mr-2"></i> Recommendations
+            <div class="bg-emerald-50 dark:bg-emerald-900/30 p-8 rounded-2xl border border-emerald-100 dark:border-emerald-800">
+                <h3 class="text-xl font-bold text-emerald-900 dark:text-emerald-300 mb-4 flex items-center">
+                    <i class="fas fa-rocket text-emerald-600 dark:text-emerald-400 mr-2"></i> Recommendations
                 </h3>
-                <ul class="space-y-4 text-emerald-800 text-sm md:text-base">
+                <ul class="space-y-4 text-emerald-800 dark:text-emerald-200 text-sm md:text-base">
                     <li class="flex items-start">
-                        <i class="fas fa-arrow-circle-right mt-1 mr-3 text-emerald-500"></i>
+                        <i class="fas fa-arrow-circle-right mt-1 mr-3 text-emerald-500 dark:text-emerald-400"></i>
                         <span><strong>Virtual-First Issuance:</strong> Banks should stop issuing physical kits by default to save costs and align with "mobile-first" behavior.</span>
                     </li>
                     <li class="flex items-start">
-                        <i class="fas fa-arrow-circle-right mt-1 mr-3 text-emerald-500"></i>
+                        <i class="fas fa-arrow-circle-right mt-1 mr-3 text-emerald-500 dark:text-emerald-400"></i>
                         <span><strong>Tiered MDR:</strong> Regulators must implement lower/zero MDR tiers for small credit transactions to encourage merchant acceptance.</span>
                     </li>
                 </ul>
@@ -222,48 +243,48 @@
         <!-- PAYMENT EVOLUTION TIMELINE -->
         <section id="timeline" class="mb-14 scroll-mt-20">
             <div class="glass-card rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-slate-900 mb-8 flex items-center">
-                    <i class="fas fa-history text-indigo-600 mr-3"></i> The Evolution of Payments
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center">
+                    <i class="fas fa-history text-indigo-600 dark:text-indigo-400 mr-3"></i> The Evolution of Payments
                 </h2>
                 <div class="max-w-4xl">
-                    <div class="timeline-item">
+                    <div class="timeline-item dark:border-slate-700">
                         <div class="timeline-dot"></div>
                         <div>
-                            <div class="text-sm font-semibold text-indigo-600 mb-1">1950</div>
-                            <div class="font-bold text-slate-800 mb-2">Diners Club - Birth of Plastic</div>
-                            <div class="text-slate-600 text-sm">First universal charge card introduced. The concept of "carry credit in your wallet" begins.</div>
+                            <div class="text-sm font-semibold text-indigo-600 dark:text-indigo-400 mb-1">1950</div>
+                            <div class="font-bold text-slate-800 dark:text-slate-200 mb-2">Diners Club - Birth of Plastic</div>
+                            <div class="text-slate-600 dark:text-slate-400 text-sm">First universal charge card introduced. The concept of "carry credit in your wallet" begins.</div>
                         </div>
                     </div>
-                    <div class="timeline-item">
+                    <div class="timeline-item dark:border-slate-700">
                         <div class="timeline-dot bg-purple-500" style="box-shadow: 0 0 0 2px #a855f7;"></div>
                         <div>
-                            <div class="text-sm font-semibold text-purple-600 mb-1">1970s-1980s</div>
-                            <div class="font-bold text-slate-800 mb-2">Visa & Mastercard Dominance</div>
-                            <div class="text-slate-600 text-sm">Four-Party Model established: Cardholder → Merchant → Acquirer → Issuer. Global standardization of PVC cards.</div>
+                            <div class="text-sm font-semibold text-purple-600 dark:text-purple-400 mb-1">1970s-1980s</div>
+                            <div class="font-bold text-slate-800 dark:text-slate-200 mb-2">Visa & Mastercard Dominance</div>
+                            <div class="text-slate-600 dark:text-slate-400 text-sm">Four-Party Model established: Cardholder → Merchant → Acquirer → Issuer. Global standardization of PVC cards.</div>
                         </div>
                     </div>
-                    <div class="timeline-item">
+                    <div class="timeline-item dark:border-slate-700">
                         <div class="timeline-dot bg-emerald-500" style="box-shadow: 0 0 0 2px #10b981;"></div>
                         <div>
-                            <div class="text-sm font-semibold text-emerald-600 mb-1">2016</div>
-                            <div class="font-bold text-slate-800 mb-2">UPI Launch - The Indian Revolution</div>
-                            <div class="text-slate-600 text-sm">NPCI introduces Unified Payments Interface. Real-time settlement, VPA-based transfers, zero MDR for P2P. By 2024, UPI accounts for 80% of digital payment volume in India.</div>
+                            <div class="text-sm font-semibold text-emerald-600 dark:text-emerald-400 mb-1">2016</div>
+                            <div class="font-bold text-slate-800 dark:text-slate-200 mb-2">UPI Launch - The Indian Revolution</div>
+                            <div class="text-slate-600 dark:text-slate-400 text-sm">NPCI introduces Unified Payments Interface. Real-time settlement, VPA-based transfers, zero MDR for P2P. By 2024, UPI accounts for 80% of digital payment volume in India.</div>
                         </div>
                     </div>
-                    <div class="timeline-item">
+                    <div class="timeline-item dark:border-slate-700">
                         <div class="timeline-dot bg-red-500" style="box-shadow: 0 0 0 2px #ef4444;"></div>
                         <div>
-                            <div class="text-sm font-semibold text-red-600 mb-1">2022</div>
-                            <div class="font-bold text-slate-800 mb-2">RBI Policy Shift: Credit on UPI</div>
-                            <div class="text-slate-600 text-sm"><strong>Game Changer:</strong> RBI allows RuPay Credit Cards to be linked to UPI apps. Credit liquidity now accessible via QR codes at 650M+ merchant points.</div>
+                            <div class="text-sm font-semibold text-red-600 dark:text-red-400 mb-1">2022</div>
+                            <div class="font-bold text-slate-800 dark:text-slate-200 mb-2">RBI Policy Shift: Credit on UPI</div>
+                            <div class="text-slate-600 dark:text-slate-400 text-sm"><strong>Game Changer:</strong> RBI allows RuPay Credit Cards to be linked to UPI apps. Credit liquidity now accessible via QR codes at 650M+ merchant points.</div>
                         </div>
                     </div>
-                    <div class="timeline-item">
+                    <div class="timeline-item dark:border-slate-700">
                         <div class="timeline-dot bg-amber-500" style="box-shadow: 0 0 0 2px #f59e0b;"></div>
                         <div>
-                            <div class="text-sm font-semibold text-amber-600 mb-1">2025-2030 (Forecast)</div>
-                            <div class="font-bold text-slate-800 mb-2">"Invisible Credit" Era</div>
-                            <div class="text-slate-600 text-sm">Physical cards become optional status symbols. Credit lines decouple from plastic. Virtual-first issuance becomes standard.</div>
+                            <div class="text-sm font-semibold text-amber-600 dark:text-amber-400 mb-1">2025-2030 (Forecast)</div>
+                            <div class="font-bold text-slate-800 dark:text-slate-200 mb-2">"Invisible Credit" Era</div>
+                            <div class="text-slate-600 dark:text-slate-400 text-sm">Physical cards become optional status symbols. Credit lines decouple from plastic. Virtual-first issuance becomes standard.</div>
                         </div>
                     </div>
                 </div>
@@ -273,58 +294,58 @@
         <!-- KEY CONCEPTS SECTION -->
         <section id="concepts" class="mb-14 scroll-mt-20">
             <div class="glass-card rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-slate-900 mb-8 flex items-center">
-                    <i class="fas fa-book-open text-indigo-600 mr-3"></i> Key Concepts & Frameworks
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center">
+                    <i class="fas fa-book-open text-indigo-600 dark:text-indigo-400 mr-3"></i> Key Concepts & Frameworks
                 </h2>
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Concept 1 -->
-                    <div class="concept-card bg-gradient-to-br from-indigo-50 to-purple-50 p-6 rounded-xl border border-indigo-100">
+                    <div class="concept-card bg-gradient-to-br from-indigo-50 to-purple-50 dark:from-indigo-950 dark:to-purple-950 p-6 rounded-xl border border-indigo-100 dark:border-indigo-900">
                         <div class="text-3xl mb-3">💳</div>
-                        <h3 class="font-bold text-slate-900 mb-2">Four-Party Model</h3>
-                        <p class="text-sm text-slate-600 mb-3">Traditional card network structure:</p>
-                        <div class="text-xs text-slate-700 space-y-1">
+                        <h3 class="font-bold text-slate-900 dark:text-slate-200 mb-2">Four-Party Model</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Traditional card network structure:</p>
+                        <div class="text-xs text-slate-700 dark:text-slate-300 space-y-1">
                             <div>1. <strong>Cardholder</strong> - Customer</div>
                             <div>2. <strong>Merchant</strong> - Retailer</div>
                             <div>3. <strong>Acquirer</strong> - Merchant's Bank</div>
                             <div>4. <strong>Issuer</strong> - Customer's Bank</div>
-                            <div class="pt-2 text-indigo-600">Connected by: Network (Visa/Mastercard)</div>
+                            <div class="pt-2 text-indigo-600 dark:text-indigo-400">Connected by: Network (Visa/Mastercard)</div>
                         </div>
                     </div>
 
                     <!-- Concept 2 -->
-                    <div class="concept-card bg-gradient-to-br from-emerald-50 to-teal-50 p-6 rounded-xl border border-emerald-100">
+                    <div class="concept-card bg-gradient-to-br from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 p-6 rounded-xl border border-emerald-100 dark:border-emerald-900">
                         <div class="text-3xl mb-3">📱</div>
-                        <h3 class="font-bold text-slate-900 mb-2">UPI Mechanism</h3>
-                        <p class="text-sm text-slate-600 mb-3">Real-time payment system:</p>
-                        <div class="text-xs text-slate-700 space-y-1">
+                        <h3 class="font-bold text-slate-900 dark:text-slate-200 mb-2">UPI Mechanism</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Real-time payment system:</p>
+                        <div class="text-xs text-slate-700 dark:text-slate-300 space-y-1">
                             <div>• <strong>VPA</strong> (Virtual Payment Address) - yourname@bank</div>
                             <div>• <strong>Real-time</strong> settlement (vs. T+1 for cards)</div>
                             <div>• <strong>Zero MDR</strong> for P2P transactions</div>
                             <div>• <strong>QR Code</strong> infrastructure</div>
-                            <div class="pt-2 text-emerald-600">Built on IMPS backbone</div>
+                            <div class="pt-2 text-emerald-600 dark:text-emerald-400">Built on IMPS backbone</div>
                         </div>
                     </div>
 
                     <!-- Concept 3 -->
-                    <div class="concept-card bg-gradient-to-br from-red-50 to-orange-50 p-6 rounded-xl border border-red-100">
+                    <div class="concept-card bg-gradient-to-br from-red-50 to-orange-50 dark:from-red-950 dark:to-orange-950 p-6 rounded-xl border border-red-100 dark:border-red-900">
                         <div class="text-3xl mb-3">💰</div>
-                        <h3 class="font-bold text-slate-900 mb-2">MDR (Merchant Discount Rate)</h3>
-                        <p class="text-sm text-slate-600 mb-3">Fee merchants pay per transaction:</p>
-                        <div class="text-xs text-slate-700 space-y-1">
+                        <h3 class="font-bold text-slate-900 dark:text-slate-200 mb-2">MDR (Merchant Discount Rate)</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Fee merchants pay per transaction:</p>
+                        <div class="text-xs text-slate-700 dark:text-slate-300 space-y-1">
                             <div>• <strong>Credit Cards:</strong> 1.5-3%</div>
                             <div>• <strong>Debit Cards:</strong> 0.4-1%</div>
                             <div>• <strong>UPI (P2P):</strong> 0%</div>
                             <div>• <strong>Credit-UPI:</strong> ~2%</div>
-                            <div class="pt-2 text-red-600">Key barrier to adoption!</div>
+                            <div class="pt-2 text-red-600 dark:text-red-400">Key barrier to adoption!</div>
                         </div>
                     </div>
 
                     <!-- Concept 4 -->
-                    <div class="concept-card bg-gradient-to-br from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-100">
+                    <div class="concept-card bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950 p-6 rounded-xl border border-blue-100 dark:border-blue-900">
                         <div class="text-3xl mb-3">🎯</div>
-                        <h3 class="font-bold text-slate-900 mb-2">TAM Model</h3>
-                        <p class="text-sm text-slate-600 mb-3">Technology Acceptance Model (Davis, 1989):</p>
-                        <div class="text-xs text-slate-700 space-y-1">
+                        <h3 class="font-bold text-slate-900 dark:text-slate-200 mb-2">TAM Model</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Technology Acceptance Model (Davis, 1989):</p>
+                        <div class="text-xs text-slate-700 dark:text-slate-300 space-y-1">
                             <div>• <strong>PU</strong> - Perceived Usefulness</div>
                             <div>• <strong>PEOU</strong> - Perceived Ease of Use</div>
                             <div class="pt-2">Applied to your study:</div>
@@ -334,11 +355,11 @@
                     </div>
 
                     <!-- Concept 5 -->
-                    <div class="concept-card bg-gradient-to-br from-purple-50 to-pink-50 p-6 rounded-xl border border-purple-100">
+                    <div class="concept-card bg-gradient-to-br from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 p-6 rounded-xl border border-purple-100 dark:border-purple-900">
                         <div class="text-3xl mb-3">🌐</div>
-                        <h3 class="font-bold text-slate-900 mb-2">UTAUT Framework</h3>
-                        <p class="text-sm text-slate-600 mb-3">Unified Theory of Acceptance (Venkatesh, 2003):</p>
-                        <div class="text-xs text-slate-700 space-y-1">
+                        <h3 class="font-bold text-slate-900 dark:text-slate-200 mb-2">UTAUT Framework</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Unified Theory of Acceptance (Venkatesh, 2003):</p>
+                        <div class="text-xs text-slate-700 dark:text-slate-300 space-y-1">
                             <div>1. Performance Expectancy</div>
                             <div>2. Effort Expectancy</div>
                             <div>3. <strong>Social Influence</strong> (QR visibility)</div>
@@ -347,15 +368,15 @@
                     </div>
 
                     <!-- Concept 6 -->
-                    <div class="concept-card bg-gradient-to-br from-amber-50 to-yellow-50 p-6 rounded-xl border border-amber-100">
+                    <div class="concept-card bg-gradient-to-br from-amber-50 to-yellow-50 dark:from-amber-950 dark:to-yellow-950 p-6 rounded-xl border border-amber-100 dark:border-amber-900">
                         <div class="text-3xl mb-3">📊</div>
-                        <h3 class="font-bold text-slate-900 mb-2">ATS (Average Ticket Size)</h3>
-                        <p class="text-sm text-slate-600 mb-3">Average transaction value:</p>
-                        <div class="text-xs text-slate-700 space-y-1">
+                        <h3 class="font-bold text-slate-900 dark:text-slate-200 mb-2">ATS (Average Ticket Size)</h3>
+                        <p class="text-sm text-slate-600 dark:text-slate-400 mb-3">Average transaction value:</p>
+                        <div class="text-xs text-slate-700 dark:text-slate-300 space-y-1">
                             <div>• <strong>Credit Card:</strong> ₹5,300</div>
                             <div>• <strong>UPI:</strong> ₹1,480</div>
                             <div>• <strong>Ratio:</strong> 3.58:1</div>
-                            <div class="pt-2 text-amber-600">Shows behavioral segmentation!</div>
+                            <div class="pt-2 text-amber-600 dark:text-amber-400">Shows behavioral segmentation!</div>
                         </div>
                     </div>
                 </div>
@@ -365,17 +386,17 @@
         <!-- METHODOLOGY DEEP DIVE -->
         <section id="methodology" class="mb-14 scroll-mt-20">
             <div class="glass-card rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-slate-900 mb-8 flex items-center">
-                    <i class="fas fa-flask text-indigo-600 mr-3"></i> Research Methodology Breakdown
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center">
+                    <i class="fas fa-flask text-indigo-600 dark:text-indigo-400 mr-3"></i> Research Methodology Breakdown
                 </h2>
                 
                 <div class="grid lg:grid-cols-2 gap-8 mb-8">
                     <!-- Research Design -->
-                    <div class="bg-slate-50 p-6 rounded-xl">
-                        <h3 class="font-bold text-slate-800 mb-4 flex items-center">
-                            <i class="fas fa-drafting-compass text-indigo-500 mr-2"></i> Research Design
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl">
+                        <h3 class="font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center">
+                            <i class="fas fa-drafting-compass text-indigo-500 dark:text-indigo-400 mr-2"></i> Research Design
                         </h3>
-                        <div class="space-y-3 text-sm text-slate-700">
+                        <div class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
                             <div><strong>Type:</strong> Mixed-Method (Quantitative + Qualitative)</div>
                             <div><strong>Approach:</strong> Descriptive & Exploratory</div>
                             <div><strong>Time Frame:</strong> FY 2020-21 to 2024-25</div>
@@ -384,11 +405,11 @@
                     </div>
 
                     <!-- Sample Details -->
-                    <div class="bg-slate-50 p-6 rounded-xl">
-                        <h3 class="font-bold text-slate-800 mb-4 flex items-center">
-                            <i class="fas fa-users text-emerald-500 mr-2"></i> Sampling Strategy
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-xl">
+                        <h3 class="font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center">
+                            <i class="fas fa-users text-emerald-500 dark:text-emerald-400 mr-2"></i> Sampling Strategy
                         </h3>
-                        <div class="space-y-3 text-sm text-slate-700">
+                        <div class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
                             <div><strong>Method:</strong> Stratified Random Sampling</div>
                             <div><strong>Consumers:</strong> 200 (by Age & Income)</div>
                             <div><strong>Merchants:</strong> 50 (by Business Type & Location)</div>
@@ -399,13 +420,13 @@
 
                 <!-- Data Sources -->
                 <div class="mb-8">
-                    <h3 class="font-bold text-slate-800 mb-4 flex items-center">
-                        <i class="fas fa-database text-purple-500 mr-2"></i> Data Sources
+                    <h3 class="font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center">
+                        <i class="fas fa-database text-purple-500 dark:text-purple-400 mr-2"></i> Data Sources
                     </h3>
                     <div class="grid md:grid-cols-2 gap-6">
-                        <div class="bg-purple-50 p-5 rounded-xl border border-purple-100">
-                            <div class="font-bold text-purple-900 mb-3">📈 Secondary Data</div>
-                            <ul class="text-sm text-purple-800 space-y-2">
+                        <div class="bg-purple-50 dark:bg-purple-900/30 p-5 rounded-xl border border-purple-100 dark:border-purple-900">
+                            <div class="font-bold text-purple-900 dark:text-purple-300 mb-3">📈 Secondary Data</div>
+                            <ul class="text-sm text-purple-800 dark:text-purple-200 space-y-2">
                                 <li>• RBI Payment System Indicators</li>
                                 <li>• NPCI Product Statistics</li>
                                 <li>• NITI Aayog Reports</li>
@@ -413,9 +434,9 @@
                                 <li>• Industry white papers</li>
                             </ul>
                         </div>
-                        <div class="bg-teal-50 p-5 rounded-xl border border-teal-100">
-                            <div class="font-bold text-teal-900 mb-3">📋 Primary Data</div>
-                            <ul class="text-sm text-teal-800 space-y-2">
+                        <div class="bg-teal-50 dark:bg-teal-900/30 p-5 rounded-xl border border-teal-100 dark:border-teal-900">
+                            <div class="font-bold text-teal-900 dark:text-teal-300 mb-3">📋 Primary Data</div>
+                            <ul class="text-sm text-teal-800 dark:text-teal-200 space-y-2">
                                 <li>• Consumer Questionnaire (Likert Scale)</li>
                                 <li>• Merchant Interview Schedule</li>
                                 <li>• Demographic profiling</li>
@@ -427,22 +448,22 @@
                 </div>
 
                 <!-- Statistical Tools -->
-                <div class="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-xl border border-indigo-100">
-                    <h3 class="font-bold text-slate-800 mb-4 flex items-center">
-                        <i class="fas fa-chart-line text-blue-600 mr-2"></i> Statistical Tools & Analysis
+                <div class="bg-gradient-to-r from-indigo-50 to-blue-50 dark:from-indigo-950 dark:to-blue-950 p-6 rounded-xl border border-indigo-100 dark:border-indigo-900">
+                    <h3 class="font-bold text-slate-800 dark:text-slate-200 mb-4 flex items-center">
+                        <i class="fas fa-chart-line text-blue-600 dark:text-blue-400 mr-2"></i> Statistical Tools & Analysis
                     </h3>
                     <div class="grid md:grid-cols-3 gap-4 text-sm">
                         <div>
-                            <div class="font-semibold text-blue-900 mb-2">Descriptive</div>
-                            <div class="text-slate-600">• Mean, Median, Mode<br>• Standard Deviation<br>• Frequency Distribution</div>
+                            <div class="font-semibold text-blue-900 dark:text-blue-300 mb-2">Descriptive</div>
+                            <div class="text-slate-600 dark:text-slate-400">• Mean, Median, Mode<br>• Standard Deviation<br>• Frequency Distribution</div>
                         </div>
                         <div>
-                            <div class="font-semibold text-blue-900 mb-2">Inferential</div>
-                            <div class="text-slate-600">• Pearson's Correlation<br>• t-Tests<br>• Chi-Square Tests<br>• ANOVA</div>
+                            <div class="font-semibold text-blue-900 dark:text-blue-300 mb-2">Inferential</div>
+                            <div class="text-slate-600 dark:text-slate-400">• Pearson's Correlation<br>• t-Tests<br>• Chi-Square Tests<br>• ANOVA</div>
                         </div>
                         <div>
-                            <div class="font-semibold text-blue-900 mb-2">Trend Analysis</div>
-                            <div class="text-slate-600">• CAGR Calculation<br>• Time Series<br>• Cross-tabulation</div>
+                            <div class="font-semibold text-blue-900 dark:text-blue-300 mb-2">Trend Analysis</div>
+                            <div class="text-slate-600 dark:text-slate-400">• CAGR Calculation<br>• Time Series<br>• Cross-tabulation</div>
                         </div>
                     </div>
                 </div>
@@ -452,12 +473,12 @@
         <!-- RESEARCH QUESTIONS & OBJECTIVES -->
         <section class="mb-14">
             <div class="glass-card rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-slate-900 mb-8 flex items-center">
-                    <i class="fas fa-question-circle text-indigo-600 mr-3"></i> Research Questions & Objectives
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center">
+                    <i class="fas fa-question-circle text-indigo-600 dark:text-indigo-400 mr-3"></i> Research Questions & Objectives
                 </h2>
                 
                 <!-- Tabs -->
-                <div class="flex border-b border-slate-200 mb-6 overflow-x-auto">
+                <div class="flex border-b border-slate-200 dark:border-slate-700 mb-6 overflow-x-auto">
                     <button class="tab-button active" onclick="switchTab(event, 'questions')">Research Questions</button>
                     <button class="tab-button" onclick="switchTab(event, 'objectives')">Objectives</button>
                     <button class="tab-button" onclick="switchTab(event, 'hypotheses')">Expected Outcomes</button>
@@ -466,25 +487,25 @@
                 <!-- Questions Tab -->
                 <div id="questions" class="tab-content active">
                     <div class="space-y-5">
-                        <div class="bg-blue-50 p-5 rounded-lg border-l-4 border-blue-500">
-                            <div class="font-bold text-blue-900 mb-2">RQ1: Growth Trajectory</div>
-                            <div class="text-sm text-blue-800">What is the comparative growth trajectory of UPI transactions versus physical credit card POS transactions?</div>
+                        <div class="bg-blue-50 dark:bg-blue-900/30 p-5 rounded-lg border-l-4 border-blue-500">
+                            <div class="font-bold text-blue-900 dark:text-blue-300 mb-2">RQ1: Growth Trajectory</div>
+                            <div class="text-sm text-blue-800 dark:text-blue-200">What is the comparative growth trajectory of UPI transactions versus physical credit card POS transactions?</div>
                         </div>
-                        <div class="bg-green-50 p-5 rounded-lg border-l-4 border-green-500">
-                            <div class="font-bold text-green-900 mb-2">RQ2: Substitution Effect</div>
-                            <div class="text-sm text-green-800">Is there a statistically significant substitution effect between UPI adoption and physical credit card usage?</div>
+                        <div class="bg-green-50 dark:bg-green-900/30 p-5 rounded-lg border-l-4 border-green-500">
+                            <div class="font-bold text-green-900 dark:text-green-300 mb-2">RQ2: Substitution Effect</div>
+                            <div class="text-sm text-green-800 dark:text-green-200">Is there a statistically significant substitution effect between UPI adoption and physical credit card usage?</div>
                         </div>
-                        <div class="bg-purple-50 p-5 rounded-lg border-l-4 border-purple-500">
-                            <div class="font-bold text-purple-900 mb-2">RQ3: Consumer Preference Drivers</div>
-                            <div class="text-sm text-purple-800">What factors drive consumer preference for "Scan" (UPI) over "Swipe" (Card)?</div>
+                        <div class="bg-purple-50 dark:bg-purple-900/30 p-5 rounded-lg border-l-4 border-purple-500">
+                            <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">RQ3: Consumer Preference Drivers</div>
+                            <div class="text-sm text-purple-800 dark:text-purple-200">What factors drive consumer preference for "Scan" (UPI) over "Swipe" (Card)?</div>
                         </div>
-                        <div class="bg-orange-50 p-5 rounded-lg border-l-4 border-orange-500">
-                            <div class="font-bold text-orange-900 mb-2">RQ4: Merchant Willingness</div>
-                            <div class="text-sm text-orange-800">What is the merchant's willingness to accept "Credit on UPI" given the associated MDR?</div>
+                        <div class="bg-orange-50 dark:bg-orange-900/30 p-5 rounded-lg border-l-4 border-orange-500">
+                            <div class="font-bold text-orange-900 dark:text-orange-300 mb-2">RQ4: Merchant Willingness</div>
+                            <div class="text-sm text-orange-800 dark:text-orange-200">What is the merchant's willingness to accept "Credit on UPI" given the associated MDR?</div>
                         </div>
-                        <div class="bg-red-50 p-5 rounded-lg border-l-4 border-red-500">
-                            <div class="font-bold text-red-900 mb-2">RQ5: ATS Comparison</div>
-                            <div class="text-sm text-red-800">Is there a significant difference in Average Ticket Size between physical and UPI-linked credit transactions?</div>
+                        <div class="bg-red-50 dark:bg-red-900/30 p-5 rounded-lg border-l-4 border-red-500">
+                            <div class="font-bold text-red-900 dark:text-red-300 mb-2">RQ5: ATS Comparison</div>
+                            <div class="text-sm text-red-800 dark:text-red-200">Is there a significant difference in Average Ticket Size between physical and UPI-linked credit transactions?</div>
                         </div>
                     </div>
                 </div>
@@ -492,25 +513,25 @@
                 <!-- Objectives Tab -->
                 <div id="objectives" class="tab-content">
                     <div class="grid md:grid-cols-2 gap-5">
-                        <div class="bg-indigo-50 p-5 rounded-lg">
-                            <div class="font-bold text-indigo-900 mb-2">1. Impact Evaluation</div>
-                            <div class="text-sm text-indigo-700">Evaluate the impact of "RuPay Credit on UPI" on physical card usage patterns</div>
+                        <div class="bg-indigo-50 dark:bg-indigo-900/30 p-5 rounded-lg">
+                            <div class="font-bold text-indigo-900 dark:text-indigo-300 mb-2">1. Impact Evaluation</div>
+                            <div class="text-sm text-indigo-700 dark:text-indigo-200">Evaluate the impact of "RuPay Credit on UPI" on physical card usage patterns</div>
                         </div>
-                        <div class="bg-purple-50 p-5 rounded-lg">
-                            <div class="font-bold text-purple-900 mb-2">2. Growth Analysis</div>
-                            <div class="text-sm text-purple-700">Analyze comparative growth trends between UPI and traditional cards</div>
+                        <div class="bg-purple-50 dark:bg-purple-900/30 p-5 rounded-lg">
+                            <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">2. Growth Analysis</div>
+                            <div class="text-sm text-purple-700 dark:text-purple-200">Analyze comparative growth trends between UPI and traditional cards</div>
                         </div>
-                        <div class="bg-emerald-50 p-5 rounded-lg">
-                            <div class="font-bold text-emerald-900 mb-2">3. Consumer Behavior</div>
-                            <div class="text-sm text-emerald-700">Determine key drivers of consumer preference in payment form factor</div>
+                        <div class="bg-emerald-50 dark:bg-emerald-900/30 p-5 rounded-lg">
+                            <div class="font-bold text-emerald-900 dark:text-emerald-300 mb-2">3. Consumer Behavior</div>
+                            <div class="text-sm text-emerald-700 dark:text-emerald-200">Determine key drivers of consumer preference in payment form factor</div>
                         </div>
-                        <div class="bg-amber-50 p-5 rounded-lg">
-                            <div class="font-bold text-amber-900 mb-2">4. Merchant Acceptance</div>
-                            <div class="text-sm text-amber-700">Assess merchant willingness and barriers to Credit-UPI adoption</div>
+                        <div class="bg-amber-50 dark:bg-amber-900/30 p-5 rounded-lg">
+                            <div class="font-bold text-amber-900 dark:text-amber-300 mb-2">4. Merchant Acceptance</div>
+                            <div class="text-sm text-amber-700 dark:text-amber-200">Assess merchant willingness and barriers to Credit-UPI adoption</div>
                         </div>
-                        <div class="bg-rose-50 p-5 rounded-lg">
-                            <div class="font-bold text-rose-900 mb-2">5. Future Forecasting</div>
-                            <div class="text-sm text-rose-700">Forecast trends in physical card issuance and virtual-first strategies</div>
+                        <div class="bg-rose-50 dark:bg-rose-900/30 p-5 rounded-lg">
+                            <div class="font-bold text-rose-900 dark:text-rose-300 mb-2">5. Future Forecasting</div>
+                            <div class="text-sm text-rose-700 dark:text-rose-200">Forecast trends in physical card issuance and virtual-first strategies</div>
                         </div>
                     </div>
                 </div>
@@ -518,25 +539,25 @@
                 <!-- Hypotheses Tab -->
                 <div id="hypotheses" class="tab-content">
                     <div class="space-y-5">
-                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 p-5 rounded-lg border border-blue-100">
-                            <div class="font-bold text-blue-900 mb-2">💡 Bifurcated Spending Model</div>
-                            <div class="text-sm text-blue-800 mb-2">UPI will displace cards for low-value transactions (&lt;₹2,000), while physical cards retain dominance for high-value purchases (&gt;₹5,000).</div>
-                            <div class="text-xs text-blue-600 font-semibold">Expected: CONFIRMED</div>
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 p-5 rounded-lg border border-blue-100 dark:border-blue-900">
+                            <div class="font-bold text-blue-900 dark:text-blue-300 mb-2">💡 Bifurcated Spending Model</div>
+                            <div class="text-sm text-blue-800 dark:text-blue-200 mb-2">UPI will displace cards for low-value transactions (&lt;₹2,000), while physical cards retain dominance for high-value purchases (&gt;₹5,000).</div>
+                            <div class="text-xs text-blue-600 dark:text-blue-400 font-semibold">Expected: CONFIRMED</div>
                         </div>
-                        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 p-5 rounded-lg border border-emerald-100">
-                            <div class="font-bold text-emerald-900 mb-2">💡 ATS Gap Validation</div>
-                            <div class="text-sm text-emerald-800 mb-2">Physical Credit Card ATS (~₹5,000) will be significantly higher than UPI ATS (~₹1,500), with Credit-UPI falling in between.</div>
-                            <div class="text-xs text-emerald-600 font-semibold">Expected: CONFIRMED (Actual ratio 3.58:1)</div>
+                        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 p-5 rounded-lg border border-emerald-100 dark:border-emerald-900">
+                            <div class="font-bold text-emerald-900 dark:text-emerald-300 mb-2">💡 ATS Gap Validation</div>
+                            <div class="text-sm text-emerald-800 dark:text-emerald-200 mb-2">Physical Credit Card ATS (~₹5,000) will be significantly higher than UPI ATS (~₹1,500), with Credit-UPI falling in between.</div>
+                            <div class="text-xs text-emerald-600 dark:text-emerald-400 font-semibold">Expected: CONFIRMED (Actual ratio 3.58:1)</div>
                         </div>
-                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 p-5 rounded-lg border border-purple-100">
-                            <div class="font-bold text-purple-900 mb-2">💡 Generational Divergence</div>
-                            <div class="text-sm text-purple-800 mb-2">Gen Z will show overwhelming preference for "wallet-less" behavior, while older generations stick to physical cards.</div>
-                            <div class="text-xs text-purple-600 font-semibold">Expected: CONFIRMED (78% Gen Z vs 12% Gen X)</div>
+                        <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-purple-950 dark:to-pink-950 p-5 rounded-lg border border-purple-100 dark:border-purple-900">
+                            <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">💡 Generational Divergence</div>
+                            <div class="text-sm text-purple-800 dark:text-purple-200 mb-2">Gen Z will show overwhelming preference for "wallet-less" behavior, while older generations stick to physical cards.</div>
+                            <div class="text-xs text-purple-600 dark:text-purple-400 font-semibold">Expected: CONFIRMED (78% Gen Z vs 12% Gen X)</div>
                         </div>
-                        <div class="bg-gradient-to-r from-red-50 to-orange-50 p-5 rounded-lg border border-red-100">
-                            <div class="font-bold text-red-900 mb-2">💡 MDR Resistance</div>
-                            <div class="text-sm text-red-800 mb-2">Small merchants will strongly resist MDR on Credit-UPI transactions unless subsidized.</div>
-                            <div class="text-xs text-red-600 font-semibold">Expected: CONFIRMED (90% resistance rate)</div>
+                        <div class="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950 dark:to-orange-950 p-5 rounded-lg border border-red-100 dark:border-red-900">
+                            <div class="font-bold text-red-900 dark:text-red-300 mb-2">💡 MDR Resistance</div>
+                            <div class="text-sm text-red-800 dark:text-red-200 mb-2">Small merchants will strongly resist MDR on Credit-UPI transactions unless subsidized.</div>
+                            <div class="text-xs text-red-600 dark:text-red-400 font-semibold">Expected: CONFIRMED (90% resistance rate)</div>
                         </div>
                     </div>
                 </div>
@@ -548,53 +569,53 @@
             <div class="grid md:grid-cols-2 gap-8">
                 <!-- Scope -->
                 <div class="glass-card p-8 rounded-2xl shadow-lg">
-                    <h3 class="text-xl font-bold text-emerald-900 mb-4 flex items-center">
-                        <i class="fas fa-expand text-emerald-600 mr-2"></i> Scope of Study
+                    <h3 class="text-xl font-bold text-emerald-900 dark:text-emerald-400 mb-4 flex items-center">
+                        <i class="fas fa-expand text-emerald-600 dark:text-emerald-400 mr-2"></i> Scope of Study
                     </h3>
-                    <ul class="space-y-3 text-sm text-slate-700">
+                    <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
                         <li class="flex items-start">
-                            <i class="fas fa-check-circle text-emerald-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-check-circle text-emerald-500 dark:text-emerald-400 mr-2 mt-0.5"></i>
                             <span><strong>Geographic:</strong> Pan-India trends (secondary data), Delhi-NCR specific (primary surveys)</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-check-circle text-emerald-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-check-circle text-emerald-500 dark:text-emerald-400 mr-2 mt-0.5"></i>
                             <span><strong>Temporal:</strong> FY 2020-21 to 2024-25 (5-year window)</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-check-circle text-emerald-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-check-circle text-emerald-500 dark:text-emerald-400 mr-2 mt-0.5"></i>
                             <span><strong>Transaction Type:</strong> Retail POS transactions (excludes B2B, online CNP)</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-check-circle text-emerald-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-check-circle text-emerald-500 dark:text-emerald-400 mr-2 mt-0.5"></i>
                             <span><strong>Stakeholders:</strong> Consumers, Merchants, Payment Networks, Banks</span>
                         </li>
                     </ul>
                 </div>
 
                 <!-- Limitations -->
-                <div class="glass-card p-8 rounded-2xl shadow-lg bg-amber-50 border border-amber-200">
-                    <h3 class="text-xl font-bold text-amber-900 mb-4 flex items-center">
-                        <i class="fas fa-exclamation-triangle text-amber-600 mr-2"></i> Study Limitations
+                <div class="glass-card p-8 rounded-2xl shadow-lg bg-amber-50 dark:bg-amber-900/30 border border-amber-200 dark:border-amber-800">
+                    <h3 class="text-xl font-bold text-amber-900 dark:text-amber-300 mb-4 flex items-center">
+                        <i class="fas fa-exclamation-triangle text-amber-600 dark:text-amber-400 mr-2"></i> Study Limitations
                     </h3>
-                    <ul class="space-y-3 text-sm text-slate-700">
+                    <ul class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
                         <li class="flex items-start">
-                            <i class="fas fa-info-circle text-amber-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-info-circle text-amber-500 dark:text-amber-400 mr-2 mt-0.5"></i>
                             <span><strong>Nascent Data:</strong> "Credit on UPI" only launched post-2022; long-term data unavailable</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-info-circle text-amber-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-info-circle text-amber-500 dark:text-amber-400 mr-2 mt-0.5"></i>
                             <span><strong>Regional Bias:</strong> Delhi-NCR is urban; findings may not apply to rural/tier-3 cities</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-info-circle text-amber-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-info-circle text-amber-500 dark:text-amber-400 mr-2 mt-0.5"></i>
                             <span><strong>RuPay Exclusivity:</strong> Currently only RuPay cards work on UPI, not Visa/Mastercard</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-info-circle text-amber-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-info-circle text-amber-500 dark:text-amber-400 mr-2 mt-0.5"></i>
                             <span><strong>Sample Size:</strong> 250 respondents may limit broader generalizability</span>
                         </li>
                         <li class="flex items-start">
-                            <i class="fas fa-info-circle text-amber-500 mr-2 mt-0.5"></i>
+                            <i class="fas fa-info-circle text-amber-500 dark:text-amber-400 mr-2 mt-0.5"></i>
                             <span><strong>Rapid Evolution:</strong> Fast-changing fintech landscape means findings may date quickly</span>
                         </li>
                     </ul>
@@ -605,86 +626,86 @@
         <!-- LITERATURE REVIEW HIGHLIGHTS -->
         <section class="mb-14">
             <div class="glass-card rounded-2xl shadow-lg p-8">
-                <h2 class="text-2xl font-bold text-slate-900 mb-8 flex items-center">
-                    <i class="fas fa-books text-indigo-600 mr-3"></i> Literature Review: Key Studies
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-8 flex items-center">
+                    <i class="fas fa-books text-indigo-600 dark:text-indigo-400 mr-3"></i> Literature Review: Key Studies
                 </h2>
                 <div class="grid md:grid-cols-2 gap-6">
                     <!-- Global Study 1 -->
-                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-xl border border-blue-200">
+                    <div class="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-950 dark:to-blue-950 p-6 rounded-xl border border-blue-200 dark:border-blue-900">
                         <div class="flex items-start mb-3">
-                            <i class="fas fa-globe text-blue-600 text-2xl mr-3"></i>
+                            <i class="fas fa-globe text-blue-600 dark:text-blue-400 text-2xl mr-3"></i>
                             <div>
-                                <div class="font-bold text-blue-900">Brazil's Pix System</div>
-                                <div class="text-xs text-blue-700">Duarte et al., 2022</div>
+                                <div class="font-bold text-blue-900 dark:text-blue-300">Brazil's Pix System</div>
+                                <div class="text-xs text-blue-700 dark:text-blue-400">Duarte et al., 2022</div>
                             </div>
                         </div>
-                        <p class="text-sm text-blue-800 mb-2"><strong>Finding:</strong> Strong substitution effect between instant payments and cash, with "soft substitution" for debit cards.</p>
-                        <p class="text-xs text-blue-700"><strong>Relevance:</strong> Shows instant payments can displace existing digital instruments, not just cash.</p>
+                        <p class="text-sm text-blue-800 dark:text-blue-200 mb-2"><strong>Finding:</strong> Strong substitution effect between instant payments and cash, with "soft substitution" for debit cards.</p>
+                        <p class="text-xs text-blue-700 dark:text-blue-400"><strong>Relevance:</strong> Shows instant payments can displace existing digital instruments, not just cash.</p>
                     </div>
 
                     <!-- Global Study 2 -->
-                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-xl border border-purple-200">
+                    <div class="bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-950 dark:to-purple-950 p-6 rounded-xl border border-purple-200 dark:border-purple-900">
                         <div class="flex items-start mb-3">
-                            <i class="fas fa-mobile-alt text-purple-600 text-2xl mr-3"></i>
+                            <i class="fas fa-mobile-alt text-purple-600 dark:text-purple-400 text-2xl mr-3"></i>
                             <div>
-                                <div class="font-bold text-purple-900">China's Super Apps</div>
-                                <div class="text-xs text-purple-700">Chen & Zhang, 2021</div>
+                                <div class="font-bold text-purple-900 dark:text-purple-300">China's Super Apps</div>
+                                <div class="text-xs text-purple-700 dark:text-purple-400">Chen & Zhang, 2021</div>
                             </div>
                         </div>
-                        <p class="text-sm text-purple-800 mb-2"><strong>Finding:</strong> Alipay/WeChat's integrated platforms offer superior user engagement vs. standalone cards.</p>
-                        <p class="text-xs text-purple-700"><strong>Relevance:</strong> QR-based ecosystems can outcompete traditional payment rails.</p>
+                        <p class="text-sm text-purple-800 dark:text-purple-200 mb-2"><strong>Finding:</strong> Alipay/WeChat's integrated platforms offer superior user engagement vs. standalone cards.</p>
+                        <p class="text-xs text-purple-700 dark:text-purple-400"><strong>Relevance:</strong> QR-based ecosystems can outcompete traditional payment rails.</p>
                     </div>
 
                     <!-- Indian Study 1 -->
-                    <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 p-6 rounded-xl border border-emerald-200">
+                    <div class="bg-gradient-to-br from-emerald-50 to-emerald-100 dark:from-emerald-950 dark:to-emerald-950 p-6 rounded-xl border border-emerald-200 dark:border-emerald-900">
                         <div class="flex items-start mb-3">
-                            <i class="fas fa-chart-bar text-emerald-600 text-2xl mr-3"></i>
+                            <i class="fas fa-chart-bar text-emerald-600 dark:text-emerald-400 text-2xl mr-3"></i>
                             <div>
-                                <div class="font-bold text-emerald-900">NITI Aayog Report 2023</div>
-                                <div class="text-xs text-emerald-700">Government Think Tank</div>
+                                <div class="font-bold text-emerald-900 dark:text-emerald-300">NITI Aayog Report 2023</div>
+                                <div class="text-xs text-emerald-700 dark:text-emerald-400">Government Think Tank</div>
                             </div>
                         </div>
-                        <p class="text-sm text-emerald-800 mb-2"><strong>Finding:</strong> Volume vs. Value Divergence - UPI dominates transaction volume (80%), but cards retain value share.</p>
-                        <p class="text-xs text-emerald-700"><strong>Relevance:</strong> Supports your "Bifurcated Spending Model" thesis.</p>
+                        <p class="text-sm text-emerald-800 dark:text-emerald-200 mb-2"><strong>Finding:</strong> Volume vs. Value Divergence - UPI dominates transaction volume (80%), but cards retain value share.</p>
+                        <p class="text-xs text-emerald-700 dark:text-emerald-400"><strong>Relevance:</strong> Supports your "Bifurcated Spending Model" thesis.</p>
                     </div>
 
                     <!-- Indian Study 2 -->
-                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 p-6 rounded-xl border border-orange-200">
+                    <div class="bg-gradient-to-br from-orange-50 to-orange-100 dark:from-orange-950 dark:to-orange-950 p-6 rounded-xl border border-orange-200 dark:border-orange-900">
                         <div class="flex items-start mb-3">
-                            <i class="fas fa-store text-orange-600 text-2xl mr-3"></i>
+                            <i class="fas fa-store text-orange-600 dark:text-orange-400 text-2xl mr-3"></i>
                             <div>
-                                <div class="font-bold text-orange-900">MDR & Small Retailers</div>
-                                <div class="text-xs text-orange-700">Modi & Kumar, 2023</div>
+                                <div class="font-bold text-orange-900 dark:text-orange-300">MDR & Small Retailers</div>
+                                <div class="text-xs text-orange-700 dark:text-orange-400">Modi & Kumar, 2023</div>
                             </div>
                         </div>
-                        <p class="text-sm text-orange-800 mb-2"><strong>Finding:</strong> MDR remains critical barrier for small merchants adopting digital credit payments.</p>
-                        <p class="text-xs text-orange-700"><strong>Relevance:</strong> Validates your merchant resistance findings (90%).</p>
+                        <p class="text-sm text-orange-800 dark:text-orange-200 mb-2"><strong>Finding:</strong> MDR remains critical barrier for small merchants adopting digital credit payments.</p>
+                        <p class="text-xs text-orange-700 dark:text-orange-400"><strong>Relevance:</strong> Validates your merchant resistance findings (90%).</p>
                     </div>
 
                     <!-- Forecast -->
-                    <div class="bg-gradient-to-br from-red-50 to-red-100 p-6 rounded-xl border border-red-200">
+                    <div class="bg-gradient-to-br from-red-50 to-red-100 dark:from-red-950 dark:to-red-950 p-6 rounded-xl border border-red-200 dark:border-red-900">
                         <div class="flex items-start mb-3">
-                            <i class="fas fa-crystal-ball text-red-600 text-2xl mr-3"></i>
+                            <i class="fas fa-crystal-ball text-red-600 dark:text-red-400 text-2xl mr-3"></i>
                             <div>
-                                <div class="font-bold text-red-900">PwC Projections 2024</div>
-                                <div class="text-xs text-red-700">Industry Forecast</div>
+                                <div class="font-bold text-red-900 dark:text-red-300">PwC Projections 2024</div>
+                                <div class="text-xs text-red-700 dark:text-red-400">Industry Forecast</div>
                             </div>
                         </div>
-                        <p class="text-sm text-red-800 mb-2"><strong>Forecast:</strong> "Credit on UPI" could capture 15-20% of credit card transaction value by 2029.</p>
-                        <p class="text-xs text-red-700"><strong>Relevance:</strong> Industry validates your research direction and significance.</p>
+                        <p class="text-sm text-red-800 dark:text-red-200 mb-2"><strong>Forecast:</strong> "Credit on UPI" could capture 15-20% of credit card transaction value by 2029.</p>
+                        <p class="text-xs text-red-700 dark:text-red-400"><strong>Relevance:</strong> Industry validates your research direction and significance.</p>
                     </div>
 
                     <!-- Research Gap -->
-                    <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 p-6 rounded-xl border border-indigo-200">
+                    <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 dark:from-indigo-950 dark:to-indigo-950 p-6 rounded-xl border border-indigo-200 dark:border-indigo-900">
                         <div class="flex items-start mb-3">
-                            <i class="fas fa-puzzle-piece text-indigo-600 text-2xl mr-3"></i>
+                            <i class="fas fa-puzzle-piece text-indigo-600 dark:text-indigo-400 text-2xl mr-3"></i>
                             <div>
-                                <div class="font-bold text-indigo-900">YOUR UNIQUE CONTRIBUTION</div>
-                                <div class="text-xs text-indigo-700">Research Gap You're Filling</div>
+                                <div class="font-bold text-indigo-900 dark:text-indigo-300">YOUR UNIQUE CONTRIBUTION</div>
+                                <div class="text-xs text-indigo-700 dark:text-indigo-400">Research Gap You're Filling</div>
                             </div>
                         </div>
-                        <p class="text-sm text-indigo-800 mb-2"><strong>Gap:</strong> Most studies focus on "Cash vs Digital" - not the intra-digital "QR vs Plastic" battle.</p>
-                        <p class="text-xs text-indigo-700"><strong>Your Innovation:</strong> First post-2023 mixed-method study analyzing the form factor war with behavioral + macro data.</p>
+                        <p class="text-sm text-indigo-800 dark:text-indigo-200 mb-2"><strong>Gap:</strong> Most studies focus on "Cash vs Digital" - not the intra-digital "QR vs Plastic" battle.</p>
+                        <p class="text-xs text-indigo-700 dark:text-indigo-400"><strong>Your Innovation:</strong> First post-2023 mixed-method study analyzing the form factor war with behavioral + macro data.</p>
                     </div>
                 </div>
             </div>
@@ -692,9 +713,9 @@
 
         <!-- VIVA VOCE SECTION -->
         <section id="viva-section" class="scroll-mt-20">
-            <div class="bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700">
                 <!-- Viva Header -->
-                <div class="bg-indigo-900 p-8 text-center">
+                <div class="bg-indigo-900 dark:bg-indigo-950 p-8 text-center">
                     <h2 class="text-3xl font-bold text-white mb-2">
                         <i class="fas fa-microphone-alt mr-3 text-yellow-400"></i>Viva Voce Preparation Guide
                     </h2>
@@ -705,8 +726,8 @@
 
                     <!-- Section 1: Intro -->
                     <div>
-                        <h3 class="text-xl font-bold text-indigo-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">1</span> 
+                        <h3 class="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">1</span>
                             General & Introductory
                         </h3>
                         <div class="grid md:grid-cols-2 gap-8">
@@ -727,8 +748,8 @@
 
                     <!-- Section 2: Concepts -->
                     <div>
-                        <h3 class="text-xl font-bold text-indigo-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span> 
+                        <h3 class="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">2</span>
                             Conceptual Framework
                         </h3>
                         <div class="grid md:grid-cols-2 gap-8">
@@ -745,8 +766,8 @@
 
                     <!-- Section 3: Methodology -->
                     <div>
-                        <h3 class="text-xl font-bold text-indigo-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">3</span> 
+                        <h3 class="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">3</span>
                             Methodology
                         </h3>
                         <div class="space-y-4">
@@ -763,8 +784,8 @@
 
                     <!-- Section 4: Findings -->
                     <div>
-                        <h3 class="text-xl font-bold text-indigo-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">4</span> 
+                        <h3 class="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">4</span>
                             Findings & Analysis
                         </h3>
                         <div class="grid md:grid-cols-2 gap-8">
@@ -789,86 +810,86 @@
 
                     <!-- Section 5: Critical / Difficult Questions -->
                     <div>
-                        <h3 class="text-xl font-bold text-red-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-red-100 text-red-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">5</span> 
+                        <h3 class="text-xl font-bold text-red-800 dark:text-red-400 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">5</span>
                             Critical / Challenging Questions
                         </h3>
                         <div class="space-y-6">
-                            <div class="bg-red-50 p-5 rounded-lg border border-red-200">
-                                <div class="viva-q text-red-900">Q12: Your sample is only 250 people from Delhi-NCR. How can you generalize to all of India?</div>
-                                <div class="viva-a text-red-800">Valid concern. I acknowledge this limitation explicitly. However, Delhi-NCR represents a <strong>high-adoption urban cluster</strong> with diverse demographics and retail mix. It's a leading indicator. Additionally, my secondary data from RBI covers Pan-India trends, so I triangulate primary findings with national macro data. For full rural generalizability, future research with larger samples is needed.</div>
+                            <div class="bg-red-50 dark:bg-red-900/20 p-5 rounded-lg border border-red-200 dark:border-red-900">
+                                <div class="viva-q text-red-900 dark:text-red-300">Q12: Your sample is only 250 people from Delhi-NCR. How can you generalize to all of India?</div>
+                                <div class="viva-a text-red-800 dark:text-red-200">Valid concern. I acknowledge this limitation explicitly. However, Delhi-NCR represents a <strong>high-adoption urban cluster</strong> with diverse demographics and retail mix. It's a leading indicator. Additionally, my secondary data from RBI covers Pan-India trends, so I triangulate primary findings with national macro data. For full rural generalizability, future research with larger samples is needed.</div>
                             </div>
 
-                            <div class="bg-orange-50 p-5 rounded-lg border border-orange-200">
-                                <div class="viva-q text-orange-900">Q13: Credit on UPI only works with RuPay cards. Isn't that a tiny segment? Most Indians have Visa/Mastercard.</div>
-                                <div class="viva-a text-orange-800">Yes, current limitation. RuPay's domestic share is growing (~65% of debit, ~30% of credit as of 2024), but Visa/MC still dominate premium credit. However, this is an <strong>infrastructure study</strong>. The RBI's 2022 circular is a policy signal. Once Visa/MC integrate (potentially by 2026-27), the findings become even more relevant. My study captures the <strong>early adoption phase</strong>.</div>
+                            <div class="bg-orange-50 dark:bg-orange-900/20 p-5 rounded-lg border border-orange-200 dark:border-orange-900">
+                                <div class="viva-q text-orange-900 dark:text-orange-300">Q13: Credit on UPI only works with RuPay cards. Isn't that a tiny segment? Most Indians have Visa/Mastercard.</div>
+                                <div class="viva-a text-orange-800 dark:text-orange-200">Yes, current limitation. RuPay's domestic share is growing (~65% of debit, ~30% of credit as of 2024), but Visa/MC still dominate premium credit. However, this is an <strong>infrastructure study</strong>. The RBI's 2022 circular is a policy signal. Once Visa/MC integrate (potentially by 2026-27), the findings become even more relevant. My study captures the <strong>early adoption phase</strong>.</div>
                             </div>
 
-                            <div class="bg-amber-50 p-5 rounded-lg border border-amber-200">
-                                <div class="viva-q text-amber-900">Q14: If 90% of merchants resist MDR, won't Credit-UPI fail entirely?</div>
-                                <div class="viva-a text-amber-800">Not necessarily. This is where my <strong>recommendations</strong> come in. I propose a <strong>Tiered MDR</strong> model: zero/low MDR for transactions &lt;₹500, standard 2% for &gt;₹5,000. This way, small merchants accept micro-credit without fees, while banks earn from premium spends. Regulatory intervention is critical—subsidization or interchange caps can solve this.</div>
+                            <div class="bg-amber-50 dark:bg-amber-900/20 p-5 rounded-lg border border-amber-200 dark:border-amber-900">
+                                <div class="viva-q text-amber-900 dark:text-amber-300">Q14: If 90% of merchants resist MDR, won't Credit-UPI fail entirely?</div>
+                                <div class="viva-a text-amber-800 dark:text-amber-200">Not necessarily. This is where my <strong>recommendations</strong> come in. I propose a <strong>Tiered MDR</strong> model: zero/low MDR for transactions &lt;₹500, standard 2% for &gt;₹5,000. This way, small merchants accept micro-credit without fees, while banks earn from premium spends. Regulatory intervention is critical—subsidization or interchange caps can solve this.</div>
                             </div>
 
-                            <div class="bg-yellow-50 p-5 rounded-lg border border-yellow-200">
-                                <div class="viva-q text-yellow-900">Q15: Correlation doesn't mean causation. How do you prove UPI is <em>causing</em> card decline, not just coinciding with it?</div>
-                                <div class="viva-a text-yellow-800">Excellent point. I use <strong>multiple validation methods</strong>: (1) Pearson's correlation to show inverse relationship, (2) Consumer surveys directly asking "Have you reduced card usage due to UPI?", (3) Cross-generational analysis showing Gen Z (high UPI users) have low card usage. While I can't establish pure causation in a descriptive study, the preponderance of evidence strongly suggests a substitution effect.</div>
+                            <div class="bg-yellow-50 dark:bg-yellow-900/20 p-5 rounded-lg border border-yellow-200 dark:border-yellow-900">
+                                <div class="viva-q text-yellow-900 dark:text-yellow-300">Q15: Correlation doesn't mean causation. How do you prove UPI is <em>causing</em> card decline, not just coinciding with it?</div>
+                                <div class="viva-a text-yellow-800 dark:text-yellow-200">Excellent point. I use <strong>multiple validation methods</strong>: (1) Pearson's correlation to show inverse relationship, (2) Consumer surveys directly asking "Have you reduced card usage due to UPI?", (3) Cross-generational analysis showing Gen Z (high UPI users) have low card usage. While I can't establish pure causation in a descriptive study, the preponderance of evidence strongly suggests a substitution effect.</div>
                             </div>
 
-                            <div class="bg-green-50 p-5 rounded-lg border border-green-200">
-                                <div class="viva-q text-green-900">Q16: Credit cards offer rewards, cashback, airport lounges. Why would anyone switch to UPI credit?</div>
-                                <div class="viva-a text-green-800">This is why I predict <strong>Partial Substitution</strong>, not total. High-value spenders (>₹5k) will keep cards for rewards. But for everyday chai-pakoda purchases (₹50-500), rewards don't matter. Credit-UPI's value is <strong>micro-credit liquidity</strong> at millions of small shops without POS. It's not about replacing premium cards—it's about expanding credit access to the unorganized sector.</div>
+                            <div class="bg-green-50 dark:bg-green-900/20 p-5 rounded-lg border border-green-200 dark:border-green-900">
+                                <div class="viva-q text-green-900 dark:text-green-300">Q16: Credit cards offer rewards, cashback, airport lounges. Why would anyone switch to UPI credit?</div>
+                                <div class="viva-a text-green-800 dark:text-green-200">This is why I predict <strong>Partial Substitution</strong>, not total. High-value spenders (>₹5k) will keep cards for rewards. But for everyday chai-pakoda purchases (₹50-500), rewards don't matter. Credit-UPI's value is <strong>micro-credit liquidity</strong> at millions of small shops without POS. It's not about replacing premium cards—it's about expanding credit access to the unorganized sector.</div>
                             </div>
 
-                            <div class="bg-teal-50 p-5 rounded-lg border border-teal-200">
-                                <div class="viva-q text-teal-900">Q17: What if UPI itself fails or gets replaced by another tech in 5 years?</div>
-                                <div class="viva-a text-teal-800">My research isn't about UPI specifically—it's about the <strong>Form Factor principle</strong>. Whether it's UPI, BNPL, or future tech, the core insight remains: <strong>QR/mobile-based payments with ubiquitous acceptance will challenge physical instruments.</strong> UPI is the Indian manifestation; China has Alipay, Brazil has Pix. The trend is global—instant, low-cost, smartphone-native payments are the future.</div>
+                            <div class="bg-teal-50 dark:bg-teal-900/20 p-5 rounded-lg border border-teal-200 dark:border-teal-900">
+                                <div class="viva-q text-teal-900 dark:text-teal-300">Q17: What if UPI itself fails or gets replaced by another tech in 5 years?</div>
+                                <div class="viva-a text-teal-800 dark:text-teal-200">My research isn't about UPI specifically—it's about the <strong>Form Factor principle</strong>. Whether it's UPI, BNPL, or future tech, the core insight remains: <strong>QR/mobile-based payments with ubiquitous acceptance will challenge physical instruments.</strong> UPI is the Indian manifestation; China has Alipay, Brazil has Pix. The trend is global—instant, low-cost, smartphone-native payments are the future.</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Section 6: Specific Stats to Memorize -->
                     <div>
-                        <h3 class="text-xl font-bold text-purple-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-purple-100 text-purple-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">6</span> 
+                        <h3 class="text-xl font-bold text-purple-800 dark:text-purple-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">6</span>
                             Key Numbers to Remember
                         </h3>
-                        <div class="bg-purple-50 p-6 rounded-xl border border-purple-200">
+                        <div class="bg-purple-50 dark:bg-purple-900/30 p-6 rounded-xl border border-purple-200 dark:border-purple-900">
                             <div class="grid md:grid-cols-2 gap-4 text-sm">
-                                <div class="bg-white p-4 rounded-lg">
-                                    <div class="font-bold text-purple-900 mb-2">Infrastructure</div>
-                                    <div class="text-purple-700">• POS Terminals: <strong>~11 million</strong></div>
-                                    <div class="text-purple-700">• QR Codes: <strong>&gt;650 million</strong></div>
-                                    <div class="text-purple-700">• Acceptance Gap: <strong>60:1 ratio</strong></div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg">
+                                    <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">Infrastructure</div>
+                                    <div class="text-purple-700 dark:text-purple-200">• POS Terminals: <strong>~11 million</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• QR Codes: <strong>&gt;650 million</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Acceptance Gap: <strong>60:1 ratio</strong></div>
                                 </div>
-                                <div class="bg-white p-4 rounded-lg">
-                                    <div class="font-bold text-purple-900 mb-2">Transaction Values</div>
-                                    <div class="text-purple-700">• Card ATS: <strong>₹5,300</strong></div>
-                                    <div class="text-purple-700">• UPI ATS: <strong>₹1,480</strong></div>
-                                    <div class="text-purple-700">• ATS Multiple: <strong>3.58x</strong></div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg">
+                                    <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">Transaction Values</div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Card ATS: <strong>₹5,300</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• UPI ATS: <strong>₹1,480</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• ATS Multiple: <strong>3.58x</strong></div>
                                 </div>
-                                <div class="bg-white p-4 rounded-lg">
-                                    <div class="font-bold text-purple-900 mb-2">Behavioral Data</div>
-                                    <div class="text-purple-700">• Gen Z Wallet-less: <strong>78%</strong></div>
-                                    <div class="text-purple-700">• Gen X Wallet-less: <strong>12%</strong></div>
-                                    <div class="text-purple-700">• Merchant MDR Resistance: <strong>90%</strong></div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg">
+                                    <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">Behavioral Data</div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Gen Z Wallet-less: <strong>78%</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Gen X Wallet-less: <strong>12%</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Merchant MDR Resistance: <strong>90%</strong></div>
                                 </div>
-                                <div class="bg-white p-4 rounded-lg">
-                                    <div class="font-bold text-purple-900 mb-2">Thresholds</div>
-                                    <div class="text-purple-700">• UPI Dominance: <strong>&lt;₹2,000</strong></div>
-                                    <div class="text-purple-700">• Card Dominance: <strong>&gt;₹5,000</strong></div>
-                                    <div class="text-purple-700">• MDR Rate: <strong>~2% for Credit-UPI</strong></div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg">
+                                    <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">Thresholds</div>
+                                    <div class="text-purple-700 dark:text-purple-200">• UPI Dominance: <strong>&lt;₹2,000</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Card Dominance: <strong>&gt;₹5,000</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• MDR Rate: <strong>~2% for Credit-UPI</strong></div>
                                 </div>
-                                <div class="bg-white p-4 rounded-lg">
-                                    <div class="font-bold text-purple-900 mb-2">Timeline</div>
-                                    <div class="text-purple-700">• UPI Launch: <strong>2016</strong></div>
-                                    <div class="text-purple-700">• Credit on UPI Policy: <strong>2022</strong></div>
-                                    <div class="text-purple-700">• Study Period: <strong>FY 2020-25</strong></div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg">
+                                    <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">Timeline</div>
+                                    <div class="text-purple-700 dark:text-purple-200">• UPI Launch: <strong>2016</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Credit on UPI Policy: <strong>2022</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Study Period: <strong>FY 2020-25</strong></div>
                                 </div>
-                                <div class="bg-white p-4 rounded-lg">
-                                    <div class="font-bold text-purple-900 mb-2">Sample Size</div>
-                                    <div class="text-purple-700">• Consumers: <strong>200</strong></div>
-                                    <div class="text-purple-700">• Merchants: <strong>50</strong></div>
-                                    <div class="text-purple-700">• Total: <strong>250 respondents</strong></div>
+                                <div class="bg-white dark:bg-slate-800 p-4 rounded-lg">
+                                    <div class="font-bold text-purple-900 dark:text-purple-300 mb-2">Sample Size</div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Consumers: <strong>200</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Merchants: <strong>50</strong></div>
+                                    <div class="text-purple-700 dark:text-purple-200">• Total: <strong>250 respondents</strong></div>
                                 </div>
                             </div>
                         </div>
@@ -876,52 +897,52 @@
 
                     <!-- Section 7: Theoretical Frameworks in Depth -->
                     <div>
-                        <h3 class="text-xl font-bold text-blue-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-blue-100 text-blue-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">7</span> 
+                        <h3 class="text-xl font-bold text-blue-800 dark:text-blue-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">7</span>
                             Theoretical Framework Deep Dive
                         </h3>
                         <div class="grid md:grid-cols-2 gap-6">
-                            <div class="bg-blue-50 p-5 rounded-lg border border-blue-200">
-                                <div class="viva-q text-blue-900">Q18: Explain TAM in the context of your study in detail.</div>
-                                <div class="viva-a text-blue-800">TAM by Davis (1989) has two constructs: <strong>Perceived Usefulness (PU)</strong> and <strong>Perceived Ease of Use (PEOU)</strong>. For Credit-UPI: <strong>PU</strong> = ability to use credit for small purchases (₹50-500) where cards aren't accepted—this is a new utility. <strong>PEOU</strong> = scanning a QR code vs. finding wallet, inserting card, entering PIN. The "scan" workflow reduces friction by 60-70%. My consumer survey tested these constructs via Likert scale questions.</div>
+                            <div class="bg-blue-50 dark:bg-blue-900/30 p-5 rounded-lg border border-blue-200 dark:border-blue-900">
+                                <div class="viva-q text-blue-900 dark:text-blue-300">Q18: Explain TAM in the context of your study in detail.</div>
+                                <div class="viva-a text-blue-800 dark:text-blue-200">TAM by Davis (1989) has two constructs: <strong>Perceived Usefulness (PU)</strong> and <strong>Perceived Ease of Use (PEOU)</strong>. For Credit-UPI: <strong>PU</strong> = ability to use credit for small purchases (₹50-500) where cards aren't accepted—this is a new utility. <strong>PEOU</strong> = scanning a QR code vs. finding wallet, inserting card, entering PIN. The "scan" workflow reduces friction by 60-70%. My consumer survey tested these constructs via Likert scale questions.</div>
                             </div>
-                            <div class="bg-teal-50 p-5 rounded-lg border border-teal-200">
-                                <div class="viva-q text-teal-900">Q19: How does UTAUT apply to merchant behavior?</div>
-                                <div class="viva-a text-teal-800">UTAUT by Venkatesh (2003) adds <strong>Social Influence</strong> and <strong>Facilitating Conditions</strong>. <strong>Social Influence:</strong> When merchants see QR codes everywhere (competitor visibility), they feel pressure to adopt. <strong>Facilitating Conditions:</strong> Smartphone penetration (87% in urban India) and RBI regulatory support enable adoption. However, <strong>Performance Expectancy</strong> is killed by the 2% MDR—merchants see cost, not benefit.</div>
+                            <div class="bg-teal-50 dark:bg-teal-900/30 p-5 rounded-lg border border-teal-200 dark:border-teal-900">
+                                <div class="viva-q text-teal-900 dark:text-teal-300">Q19: How does UTAUT apply to merchant behavior?</div>
+                                <div class="viva-a text-teal-800 dark:text-teal-200">UTAUT by Venkatesh (2003) adds <strong>Social Influence</strong> and <strong>Facilitating Conditions</strong>. <strong>Social Influence:</strong> When merchants see QR codes everywhere (competitor visibility), they feel pressure to adopt. <strong>Facilitating Conditions:</strong> Smartphone penetration (87% in urban India) and RBI regulatory support enable adoption. However, <strong>Performance Expectancy</strong> is killed by the 2% MDR—merchants see cost, not benefit.</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Section 8: Policy & Recommendations -->
                     <div>
-                        <h3 class="text-xl font-bold text-emerald-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-emerald-100 text-emerald-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">8</span> 
+                        <h3 class="text-xl font-bold text-emerald-800 dark:text-emerald-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-emerald-100 dark:bg-emerald-900 text-emerald-700 dark:text-emerald-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">8</span>
                             Policy Implications & Recommendations
                         </h3>
                         <div class="space-y-4">
-                            <div class="bg-emerald-50 p-5 rounded-lg">
-                                <div class="viva-q text-emerald-900">Q20: What specific policy changes do you recommend?</div>
-                                <div class="viva-a text-emerald-800">
+                            <div class="bg-emerald-50 dark:bg-emerald-900/30 p-5 rounded-lg">
+                                <div class="viva-q text-emerald-900 dark:text-emerald-300">Q20: What specific policy changes do you recommend?</div>
+                                <div class="viva-a text-emerald-800 dark:text-emerald-200">
                                     <strong>1. Tiered MDR Structure:</strong> 0% for &lt;₹500, 1% for ₹500-2000, 2% for &gt;₹2000. This incentivizes micro-credit adoption.<br>
                                     <strong>2. Virtual-First Issuance:</strong> Banks should issue digital cards by default, physical cards on request only. This saves ₹150-300 per card in logistics.<br>
                                     <strong>3. Interoperability Mandate:</strong> RBI should mandate Visa/Mastercard integration with UPI by 2026 to expand network effects.<br>
                                     <strong>4. Merchant Education:</strong> NPCI should run awareness campaigns showing merchants how Credit-UPI brings new customers (those without POS access).
                                 </div>
                             </div>
-                            <div class="bg-blue-50 p-5 rounded-lg">
-                                <div class="viva-q text-blue-900">Q21: What should banks do strategically?</div>
-                                <div class="viva-a text-blue-800">Banks should adopt a <strong>"Virtual-First, Plastic-Optional"</strong> model. Issue instant virtual cards via apps (takes 2 minutes vs. 7-10 days for physical). Save on courier, PVC manufacturing, and fraud from lost cards. Target Gen Z with mobile-native products. For premium customers, offer luxury metal cards as status symbols, but make digital the default.</div>
+                            <div class="bg-blue-50 dark:bg-blue-900/30 p-5 rounded-lg">
+                                <div class="viva-q text-blue-900 dark:text-blue-300">Q21: What should banks do strategically?</div>
+                                <div class="viva-a text-blue-800 dark:text-blue-200">Banks should adopt a <strong>"Virtual-First, Plastic-Optional"</strong> model. Issue instant virtual cards via apps (takes 2 minutes vs. 7-10 days for physical). Save on courier, PVC manufacturing, and fraud from lost cards. Target Gen Z with mobile-native products. For premium customers, offer luxury metal cards as status symbols, but make digital the default.</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Section 9: Future Research -->
                     <div>
-                        <h3 class="text-xl font-bold text-slate-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-slate-100 text-slate-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">9</span> 
+                        <h3 class="text-xl font-bold text-slate-800 dark:text-slate-200 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">9</span>
                             Future Research Directions
                         </h3>
-                        <div class="bg-slate-50 p-5 rounded-lg">
+                        <div class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-lg">
                             <div class="viva-q">Q22: What are the limitations of your study and how can future research address them?</div>
                             <div class="viva-a">
                                 <strong>Limitation 1 - Geographic:</strong> Future studies should cover rural India and tier-2/3 cities.<br>
@@ -935,30 +956,30 @@
 
                     <!-- Section 10: Closing Strong -->
                     <div>
-                        <h3 class="text-xl font-bold text-indigo-800 mb-6 flex items-center border-b pb-2 border-slate-100">
-                            <span class="bg-indigo-100 text-indigo-700 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">10</span> 
+                        <h3 class="text-xl font-bold text-indigo-800 dark:text-indigo-300 mb-6 flex items-center border-b pb-2 border-slate-100 dark:border-slate-700">
+                            <span class="bg-indigo-100 dark:bg-indigo-900 text-indigo-700 dark:text-indigo-300 w-8 h-8 rounded-full flex items-center justify-center mr-3 text-sm">10</span>
                             Strong Closing Statements
                         </h3>
                         <div class="space-y-4">
-                            <div class="bg-indigo-50 p-5 rounded-lg border-l-4 border-indigo-600">
-                                <div class="viva-q text-indigo-900">Q23: Summarize your entire research in 30 seconds.</div>
-                                <div class="viva-a text-indigo-800">"I investigated whether QR codes can kill plastic credit cards. I found a 60:1 infrastructure gap making cards unusable at most shops. My 250-person survey reveals a 'Bifurcated Spending Model'—UPI wins for small buys, cards survive for luxury. 78% of Gen Z are going wallet-less. The death of plastic isn't total, but it's inevitable for mass-market transactions. The future is Invisible Credit—the loan separates from the physical card."</div>
+                            <div class="bg-indigo-50 dark:bg-indigo-900/30 p-5 rounded-lg border-l-4 border-indigo-600 dark:border-indigo-500">
+                                <div class="viva-q text-indigo-900 dark:text-indigo-300">Q23: Summarize your entire research in 30 seconds.</div>
+                                <div class="viva-a text-indigo-800 dark:text-indigo-200">"I investigated whether QR codes can kill plastic credit cards. I found a 60:1 infrastructure gap making cards unusable at most shops. My 250-person survey reveals a 'Bifurcated Spending Model'—UPI wins for small buys, cards survive for luxury. 78% of Gen Z are going wallet-less. The death of plastic isn't total, but it's inevitable for mass-market transactions. The future is Invisible Credit—the loan separates from the physical card."</div>
                             </div>
-                            <div class="bg-emerald-50 p-5 rounded-lg border-l-4 border-emerald-600">
-                                <div class="viva-q text-emerald-900">Q24: What is your most important finding?</div>
-                                <div class="viva-a text-emerald-800">"The <strong>Infrastructure Asymmetry</strong> is the smoking gun. 650 million QR codes vs. 11 million POS terminals means traditional cards are geographically obsolete for 98% of merchants. Credit-on-UPI solves this, but the 2% MDR is the single barrier. Fix the MDR, and you accelerate the shift by 5-7 years."</div>
+                            <div class="bg-emerald-50 dark:bg-emerald-900/30 p-5 rounded-lg border-l-4 border-emerald-600 dark:border-emerald-500">
+                                <div class="viva-q text-emerald-900 dark:text-emerald-300">Q24: What is your most important finding?</div>
+                                <div class="viva-a text-emerald-800 dark:text-emerald-200">"The <strong>Infrastructure Asymmetry</strong> is the smoking gun. 650 million QR codes vs. 11 million POS terminals means traditional cards are geographically obsolete for 98% of merchants. Credit-on-UPI solves this, but the 2% MDR is the single barrier. Fix the MDR, and you accelerate the shift by 5-7 years."</div>
                             </div>
-                            <div class="bg-purple-50 p-5 rounded-lg border-l-4 border-purple-600">
-                                <div class="viva-q text-purple-900">Q25: Why should anyone care about this research?</div>
-                                <div class="viva-a text-purple-800">"Because billions in infrastructure investment is at stake. Banks have spent decades building POS networks. If those become stranded assets, it's a systemic risk. Conversely, if Credit-UPI succeeds, financial inclusion expands massively—750 million+ Indians gain credit access at their local kirana store. This isn't academic—it's about India's digital economy future."</div>
+                            <div class="bg-purple-50 dark:bg-purple-900/30 p-5 rounded-lg border-l-4 border-purple-600 dark:border-purple-500">
+                                <div class="viva-q text-purple-900 dark:text-purple-300">Q25: Why should anyone care about this research?</div>
+                                <div class="viva-a text-purple-800 dark:text-purple-200">"Because billions in infrastructure investment is at stake. Banks have spent decades building POS networks. If those become stranded assets, it's a systemic risk. Conversely, if Credit-UPI succeeds, financial inclusion expands massively—750 million+ Indians gain credit access at their local kirana store. This isn't academic—it's about India's digital economy future."</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- Viva Tips Box -->
-                    <div class="bg-amber-50 border-l-4 border-amber-500 p-6 rounded-r-xl">
-                        <h4 class="font-bold text-amber-800 mb-2"><i class="fas fa-star mr-2"></i>Viva Tips for Princi</h4>
-                        <ul class="text-sm text-amber-800 space-y-1">
+                    <div class="bg-amber-50 dark:bg-amber-900/30 border-l-4 border-amber-500 p-6 rounded-r-xl">
+                        <h4 class="font-bold text-amber-800 dark:text-amber-300 mb-2"><i class="fas fa-star mr-2"></i>Viva Tips for Princi</h4>
+                        <ul class="text-sm text-amber-800 dark:text-amber-200 space-y-1">
                             <li>• <strong>Don't Bluff:</strong> If unsure about a stat, pivot to the broader trend you analyzed.</li>
                             <li>• <strong>Use Your Data:</strong> Explicitly mention "60:1 Gap" or "3.6x ATS Ratio" to sound authoritative.</li>
                             <li>• <strong>Own It:</strong> You are the expert on <em>this</em> specific report. Trust your findings.</li>
@@ -974,67 +995,67 @@
         <!-- MOCK VIVA SIMULATOR -->
         <section id="simulator-section" class="scroll-mt-20 mb-14">
             <div class="glass-card rounded-2xl shadow-lg p-8 border-t-8 border-indigo-600">
-                <h2 class="text-2xl font-bold text-slate-900 mb-4 flex items-center">
-                    <i class="fas fa-robot text-indigo-600 mr-3"></i> AI Viva Simulator
+                <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-4 flex items-center">
+                    <i class="fas fa-robot text-indigo-600 dark:text-indigo-400 mr-3"></i> AI Viva Simulator
                 </h2>
-                <p class="text-slate-600 mb-6">Practice with random questions generated from your research synopsis using AI.</p>
+                <p class="text-slate-600 dark:text-slate-400 mb-6">Practice with random questions generated from your research synopsis using AI.</p>
 
                 <!-- API Key Input -->
                 <div class="mb-6">
-                    <label for="apiKey" class="block text-sm font-medium text-slate-700 mb-1">Enter Gemini API Key</label>
+                    <label for="apiKey" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">Enter Gemini API Key</label>
                     <div class="flex gap-2">
-                        <input type="password" id="apiKey" placeholder="Paste your API key here..." class="flex-1 rounded-lg border-slate-300 border p-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
-                        <button onclick="toggleApiKeyVisibility()" class="text-slate-500 hover:text-slate-700 px-2">
+                        <input type="password" id="apiKey" placeholder="Paste your API key here..." class="flex-1 rounded-lg border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-slate-200 border p-2 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm placeholder-slate-400 dark:placeholder-slate-500">
+                        <button onclick="toggleApiKeyVisibility()" class="text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 px-2">
                             <i class="fas fa-eye" id="eyeIcon"></i>
                         </button>
                     </div>
-                    <p class="text-xs text-red-500 mt-1"><i class="fas fa-lock"></i> Your key is used locally in your browser and not stored on any server.</p>
+                    <p class="text-xs text-red-500 dark:text-red-400 mt-1"><i class="fas fa-lock"></i> Your key is used locally in your browser and not stored on any server.</p>
                 </div>
 
                 <!-- Controls -->
-                <div class="flex flex-wrap gap-4 mb-8">
-                    <button onclick="generateQuestion()" id="generateBtn" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition flex items-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
+                <div class="flex flex-col sm:flex-row gap-4 mb-8">
+                    <button onclick="generateQuestion()" id="generateBtn" class="bg-indigo-600 dark:bg-indigo-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-indigo-700 dark:hover:bg-indigo-600 transition flex items-center justify-center shadow-md disabled:opacity-50 disabled:cursor-not-allowed">
                         <i class="fas fa-random mr-2"></i> Generate Question
                     </button>
-                    <button onclick="toggleBookmarks()" class="bg-white text-indigo-600 border border-indigo-200 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-50 transition flex items-center shadow-sm">
+                    <button onclick="toggleBookmarks()" class="bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-800 px-6 py-3 rounded-lg font-semibold hover:bg-indigo-50 dark:hover:bg-slate-700 transition flex items-center justify-center shadow-sm">
                         <i class="fas fa-bookmark mr-2"></i> View Bookmarks
                     </button>
                 </div>
 
                 <!-- Question Display -->
                 <div id="questionContainer" class="hidden">
-                    <div class="bg-indigo-50 p-6 rounded-xl border border-indigo-100 mb-4 relative">
-                        <button onclick="saveBookmark()" id="bookmarkBtn" class="absolute top-4 right-4 text-slate-400 hover:text-indigo-600 transition" title="Save Question">
+                    <div class="bg-indigo-50 dark:bg-indigo-900/30 p-6 rounded-xl border border-indigo-100 dark:border-indigo-800 mb-4 relative">
+                        <button onclick="saveBookmark()" id="bookmarkBtn" class="absolute top-4 right-4 text-slate-400 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition" title="Save Question">
                             <i class="far fa-bookmark text-xl"></i>
                         </button>
-                        <h3 class="font-bold text-indigo-900 mb-2">Question:</h3>
-                        <p id="questionText" class="text-lg text-slate-800 font-medium"></p>
+                        <h3 class="font-bold text-indigo-900 dark:text-indigo-300 mb-2">Question:</h3>
+                        <p id="questionText" class="text-lg text-slate-800 dark:text-slate-200 font-medium"></p>
                     </div>
 
                     <div id="answerSection" class="hidden">
-                        <div class="bg-emerald-50 p-6 rounded-xl border border-emerald-100 relative">
-                            <h3 class="font-bold text-emerald-900 mb-2">Sample Answer:</h3>
-                            <p id="answerText" class="text-slate-700"></p>
+                        <div class="bg-emerald-50 dark:bg-emerald-900/30 p-6 rounded-xl border border-emerald-100 dark:border-emerald-800 relative">
+                            <h3 class="font-bold text-emerald-900 dark:text-emerald-300 mb-2">Sample Answer:</h3>
+                            <p id="answerText" class="text-slate-700 dark:text-slate-300"></p>
                         </div>
                     </div>
 
-                    <button onclick="revealAnswer()" id="revealBtn" class="mt-4 text-indigo-600 font-semibold hover:underline">
+                    <button onclick="revealAnswer()" id="revealBtn" class="mt-4 text-indigo-600 dark:text-indigo-400 font-semibold hover:underline">
                         Show Answer
                     </button>
                 </div>
 
                 <!-- Loading State -->
                 <div id="loadingState" class="hidden py-8 text-center">
-                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"></div>
-                    <p class="text-slate-500">Consulting the AI Examiner...</p>
+                    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 dark:border-indigo-400 mx-auto mb-4"></div>
+                    <p class="text-slate-500 dark:text-slate-400">Consulting the AI Examiner...</p>
                 </div>
 
                 <!-- Bookmarks Panel -->
-                <div id="bookmarksPanel" class="hidden mt-8 border-t border-slate-200 pt-6">
-                    <h3 class="font-bold text-slate-800 mb-4">Saved Questions</h3>
+                <div id="bookmarksPanel" class="hidden mt-8 border-t border-slate-200 dark:border-slate-700 pt-6">
+                    <h3 class="font-bold text-slate-800 dark:text-slate-200 mb-4">Saved Questions</h3>
                     <div id="bookmarksList" class="space-y-4">
                         <!-- Bookmarks injected here -->
-                        <p class="text-slate-500 text-sm italic">No bookmarks yet.</p>
+                        <p class="text-slate-500 dark:text-slate-400 text-sm italic">No bookmarks yet.</p>
                     </div>
                 </div>
             </div>
@@ -1269,24 +1290,24 @@
         function renderBookmarks() {
             bookmarksList.innerHTML = '';
             if (bookmarks.length === 0) {
-                bookmarksList.innerHTML = '<p class="text-slate-500 text-sm italic">No bookmarks yet.</p>';
+                bookmarksList.innerHTML = '<p class="text-slate-500 dark:text-slate-400 text-sm italic">No bookmarks yet.</p>';
                 return;
             }
 
             bookmarks.slice().reverse().forEach((b, index) => {
                 const item = document.createElement('div');
-                item.className = 'bg-white p-4 rounded-lg border border-slate-200 shadow-sm';
+                item.className = 'bg-white dark:bg-slate-800 p-4 rounded-lg border border-slate-200 dark:border-slate-700 shadow-sm';
                 item.innerHTML = `
                     <div class="flex justify-between items-start mb-2">
-                        <h4 class="font-bold text-indigo-900 text-sm flex-1">${b.question}</h4>
-                        <button onclick="deleteBookmark('${b.question.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-red-500 ml-2">
+                        <h4 class="font-bold text-indigo-900 dark:text-indigo-300 text-sm flex-1">${b.question}</h4>
+                        <button onclick="deleteBookmark('${b.question.replace(/'/g, "\\'")}')" class="text-slate-400 dark:text-slate-500 hover:text-red-500 dark:hover:text-red-400 ml-2">
                             <i class="fas fa-trash-alt"></i>
                         </button>
                     </div>
-                    <div class="text-slate-600 text-sm border-t pt-2 mt-2 hidden" id="bm-ans-${index}">
+                    <div class="text-slate-600 dark:text-slate-300 text-sm border-t border-slate-100 dark:border-slate-700 pt-2 mt-2 hidden" id="bm-ans-${index}">
                         ${b.answer}
                     </div>
-                    <button onclick="document.getElementById('bm-ans-${index}').classList.toggle('hidden')" class="text-xs text-indigo-600 font-semibold mt-2 hover:underline">
+                    <button onclick="document.getElementById('bm-ans-${index}').classList.toggle('hidden')" class="text-xs text-indigo-600 dark:text-indigo-400 font-semibold mt-2 hover:underline">
                         Toggle Answer
                     </button>
                 `;
@@ -1419,6 +1440,49 @@
                 }
             });
         });
+
+        // Dark Mode Logic
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+            updateChartTheme();
+        }
+
+        // Initialize Theme
+        if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+
+        // Chart Theme Update
+        function updateChartTheme() {
+            const isDark = document.documentElement.classList.contains('dark');
+            const textColor = isDark ? '#94a3b8' : '#64748b';
+            const gridColor = isDark ? 'rgba(148, 163, 184, 0.1)' : 'rgba(0, 0, 0, 0.1)';
+
+            [infraCtx, atsCtx].forEach(ctx => {
+                // Access the chart instance associated with the context
+                const chart = Chart.getChart(ctx.canvas);
+                if (chart) {
+                    chart.options.scales.x.ticks.color = textColor;
+                    chart.options.scales.y.ticks.color = textColor;
+                    chart.options.scales.x.grid.color = gridColor;
+                    chart.options.scales.y.grid.color = gridColor;
+                    chart.options.plugins.legend.labels.color = textColor;
+                    chart.update();
+                }
+            });
+        }
+
+        // Initial Chart Theme Apply (wait for charts to init)
+        window.addEventListener('load', updateChartTheme);
+
     </script>
 </body>
 </html>
