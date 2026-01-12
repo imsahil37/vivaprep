@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viva Prep Simulator | Research Synopsis 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(229, 231, 235, 0.5);
+        }
+        .dark .glass-card {
+            background: rgba(30, 41, 59, 0.95);
+            border: 1px solid rgba(71, 85, 105, 0.5);
+        }
+        .viva-q {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+        .dark .viva-q {
+            color: #e2e8f0;
+        }
+        .viva-a {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            padding-left: 1rem;
+            border-left: 3px solid #6366f1;
+        }
+        .dark .viva-a {
+            color: #94a3b8;
+        }
+
+        /* Flashcard Styles */
+        .flashcard-container {
+            perspective: 1000px;
+            height: 400px; /* Fixed height for consistency */
+        }
+        .flashcard-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+        }
+        .flashcard-inner.flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-front, .flashcard-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        }
+        .flashcard-front {
+            background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%);
+            border: 2px solid #e2e8f0;
+        }
+        .dark .flashcard-front {
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            border: 2px solid #334155;
+        }
+        .flashcard-back {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 2px solid #bfdbfe;
+            transform: rotateY(180deg);
+            overflow-y: auto; /* Allow scrolling if answer is long */
+        }
+        .dark .flashcard-back {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            border: 2px solid #4338ca;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased transition-colors duration-300">
+
+    <!-- Navigation -->
+    <nav class="sticky top-0 z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-slate-200 dark:border-slate-700">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-2 text-indigo-900 dark:text-indigo-400 hover:opacity-80 transition">
+                <i class="fas fa-arrow-left"></i>
+                <span class="font-bold">Back to Synopsis</span>
+            </a>
+            <div class="flex items-center space-x-4">
+                <span class="font-bold text-lg hidden md:block">Viva Voce Simulator</span>
+                <button onclick="toggleTheme()" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon dark:hidden"></i>
+                    <i class="fas fa-sun hidden dark:inline"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto px-4 py-8 space-y-12">
+
+        <!-- MOCK VIVA SIMULATOR -->
+        <section id="simulator-section">
+            <div class="text-center mb-8">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white mb-2">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-indigo-600 to-purple-600 dark:from-indigo-400 dark:to-purple-400">
+                        AI Viva Examiner
+                    </span>
+                </h1>
+                <p class="text-slate-600 dark:text-slate-400">Test your knowledge with dynamic flashcards generated from your thesis.</p>
+            </div>
+
+            <!-- API Key Input (Conditional) -->
+            <div id="apiKeyContainer" class="max-w-md mx-auto mb-8 transition-all duration-300">
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-xl shadow-md border border-slate-200 dark:border-slate-700">
+                    <label for="apiKey" class="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">Enter Gemini API Key to Start</label>
+                    <div class="flex gap-2">
+                        <input type="password" id="apiKey" placeholder="Paste API key here..." class="flex-1 rounded-lg border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-800 dark:text-slate-200 border p-2 text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <button onclick="saveApiKey()" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700 transition">Save</button>
+                    </div>
+                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Key is stored locally in your browser.</p>
+                </div>
+            </div>
+
+            <!-- Simulator Controls -->
+            <div id="simulatorControls" class="flex flex-col sm:flex-row justify-center gap-4 mb-8 hidden">
+                <button onclick="generateQuestion()" id="generateBtn" class="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed">
+                    <i class="fas fa-random mr-2"></i> New Question
+                </button>
+                <button onclick="toggleBookmarks()" class="bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 border-2 border-indigo-100 dark:border-indigo-900 px-6 py-3 rounded-full font-semibold hover:bg-indigo-50 dark:hover:bg-slate-700 transition flex items-center justify-center shadow-md">
+                    <i class="fas fa-bookmark mr-2"></i> Bookmarks
+                </button>
+                <button onclick="resetApiKey()" class="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 underline self-center">
+                    Change API Key
+                </button>
+            </div>
+
+            <!-- Flashcard Display -->
+            <div id="flashcardContainer" class="flashcard-container hidden mb-8">
+                <div class="flashcard-inner" id="flashcardInner" onclick="flipCard()">
+                    <!-- Front (Question) -->
+                    <div class="flashcard-front">
+                        <div class="absolute top-4 right-4">
+                            <span class="text-xs font-bold text-indigo-500 uppercase tracking-widest">Question</span>
+                        </div>
+                        <h2 id="questionText" class="text-2xl md:text-3xl font-bold text-slate-800 dark:text-slate-100 leading-tight">
+                            Press "New Question" to begin...
+                        </h2>
+                        <div class="mt-6 text-sm text-slate-400 dark:text-slate-500 animate-bounce">
+                            <i class="fas fa-hand-pointer mr-2"></i> Tap to reveal answer
+                        </div>
+                    </div>
+                    <!-- Back (Answer) -->
+                    <div class="flashcard-back">
+                        <div class="absolute top-4 right-4 flex gap-3 z-10">
+                            <span class="text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-widest self-center">Answer</span>
+                            <button onclick="saveBookmark(event)" id="bookmarkBtn" class="text-slate-400 hover:text-indigo-600 transition p-1" title="Bookmark this">
+                                <i class="far fa-bookmark text-xl"></i>
+                            </button>
+                        </div>
+                        <div class="prose dark:prose-invert max-w-none">
+                            <p id="answerText" class="text-lg text-slate-800 dark:text-slate-200 leading-relaxed font-medium">
+                                <!-- Answer goes here -->
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="hidden py-12 text-center">
+                <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 dark:border-indigo-400 mx-auto mb-6"></div>
+                <p class="text-lg text-slate-600 dark:text-slate-300 font-medium">Consulting the Professor...</p>
+            </div>
+
+            <!-- Bookmarks Panel (Modal-ish) -->
+            <div id="bookmarksPanel" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+                <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-2xl w-full max-w-2xl max-h-[80vh] flex flex-col">
+                    <div class="p-6 border-b border-slate-200 dark:border-slate-700 flex justify-between items-center">
+                        <h3 class="text-xl font-bold text-indigo-900 dark:text-indigo-300">
+                            <i class="fas fa-bookmark mr-2"></i>Saved Questions
+                        </h3>
+                        <button onclick="toggleBookmarks()" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200">
+                            <i class="fas fa-times text-xl"></i>
+                        </button>
+                    </div>
+                    <div id="bookmarksList" class="p-6 overflow-y-auto space-y-4 flex-1">
+                        <!-- Bookmarks injected here -->
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <hr class="border-slate-200 dark:border-slate-800 my-12">
+
+        <!-- VIVA VOCE PREP GUIDE (Static) -->
+        <section id="viva-guide">
+            <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-200 dark:border-slate-700">
+                <div class="bg-slate-100 dark:bg-slate-900/50 p-6 border-b border-slate-200 dark:border-slate-700">
+                    <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 flex items-center">
+                        <i class="fas fa-list-alt text-indigo-500 mr-3"></i> Standard Questions Bank
+                    </h2>
+                </div>
+                <div class="p-6 md:p-8 space-y-8">
+                    <!-- Intro -->
+                    <div>
+                        <h3 class="font-bold text-indigo-600 dark:text-indigo-400 mb-4 text-lg">1. General & Introductory</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="viva-q">Q1: In simple terms, what is your research about?</div>
+                                <div class="viva-a">I'm investigating the "Form Factor War." I compare the physical Credit Card (Swipe) against the emerging "Credit on UPI" (Scan) to see if QR codes are making plastic cards obsolete.</div>
+                            </div>
+                            <div>
+                                <div class="viva-q">Q2: What is "Infrastructure Asymmetry"?</div>
+                                <div class="viva-a">It refers to the 60:1 gap in acceptance points. India has 650M+ QR codes but only ~11M POS terminals. Cards are physically unusable at most small shops.</div>
+                            </div>
+                        </div>
+                    </div>
+                     <!-- Methodology -->
+                     <div>
+                        <h3 class="font-bold text-indigo-600 dark:text-indigo-400 mb-4 text-lg">2. Methodology</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="viva-q">Q: What was your methodology?</div>
+                                <div class="viva-a">Mixed-Method Design. <strong>Secondary Data:</strong> RBI Payment System Indicators (2020–2025). <strong>Primary Data:</strong> Surveyed 200 Consumers and 50 Merchants in Delhi-NCR.</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Findings -->
+                    <div>
+                        <h3 class="font-bold text-indigo-600 dark:text-indigo-400 mb-4 text-lg">3. Key Findings</h3>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="viva-q">Q: Is the physical card dying?</div>
+                                <div class="viva-a">Partial Substitution. UPI kills the card for low-value (<₹2k) transactions, but Cards survive for high-value (>₹5k) luxury spends.</div>
+                            </div>
+                            <div>
+                                <div class="viva-q">Q: What is the "Generational Divergence"?</div>
+                                <div class="viva-a">78% of Gen Z (18-25) frequently leave home without a physical wallet, compared to only 12% of Gen X.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CHEAT SHEET -->
+        <section id="cheat-sheet">
+            <div class="bg-gradient-to-r from-slate-900 to-slate-800 rounded-3xl shadow-xl p-8 text-white">
+                <h2 class="text-2xl font-bold mb-6 text-center">
+                    <i class="fas fa-bolt mr-3 text-yellow-400"></i>Quick Cheat Sheet
+                </h2>
+                <div class="grid md:grid-cols-3 gap-6">
+                    <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10">
+                        <h3 class="font-bold text-yellow-400 mb-2">The Argument</h3>
+                        <p class="text-sm text-slate-200">60:1 infrastructure gap means Cards are geographically obsolete. Credit-UPI solves this but faces 90% merchant resistance due to fees.</p>
+                    </div>
+                    <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10">
+                        <h3 class="font-bold text-green-400 mb-2">The Numbers</h3>
+                        <ul class="text-sm text-slate-200 space-y-1">
+                            <li>• 60:1 (QR vs POS)</li>
+                            <li>• 3.58:1 (ATS Card vs UPI)</li>
+                            <li>• 78% Gen Z wallet-less</li>
+                        </ul>
+                    </div>
+                    <div class="bg-white/10 p-4 rounded-xl backdrop-blur-sm border border-white/10">
+                        <h3 class="font-bold text-blue-400 mb-2">The Conclusion</h3>
+                        <p class="text-sm text-slate-200">Cards become "Luxury Products". UPI becomes "Mass Market Credit". The loan separates from the plastic.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-900 text-slate-400 py-8 mt-12 border-t border-slate-800 text-center text-sm">
+        <p>&copy; 2026 Princi | University of Delhi</p>
+    </footer>
+
+    <script>
+        // --- DATA & CONTEXT ---
+        const RESEARCH_CONTEXT = "Research Proposal\n\u201cA Comparative Study of UPI-Based Credit\nCards and Traditional Credit Cards in India\u201d\nto be submitted to\nDepartment of Commerce\nSatyawati College (Evening),\nUniversity of Delhi, New Delhi, INDIA\nfor the Award of the degree of\nBachelor of Commerce (Honours with Research)\nUnder the Supervision of\nMr. Sahil\nby\nPrinci\nCollege Roll No.:22BCH124\nExamination Roll No.:22063504090\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\nTitle of the Study\n\u201cUPI-Based vs. Traditional Credit Cards\nA Comparative Study of UPI-Based Credit\nCards and Traditional Credit Cards in India\u201d\nA Consolidated Report\nAbstract\nThe Indian financial ecosystem is witnessing an unprecedented \u201cForm Factor War\u201d\nbetween the traditional plastic credit card and the emerging QR-code-based \u201cCredit\non UPI\u201d payment mechanism. While the Unified Payments Interface (UPI) has\nrevolutionized bank-to-bank transfers since its launch in 2016, the Reserve Bank of\nIndia\u2019s 2022 policy decision to allow RuPay Credit Cards to be linked to UPI apps\nhas created a direct challenge to the dominance of the global card networks (Visa and\nMastercard) and the physical plastic instrument itself.\nThis study investigates whether the convenience of the QR code is powerful\nenough to dismantle the established habit of the card swipe. The research employs a\nmixed-method approach, combining quantitative analysis of secondary data from\nRBI Payment System Indicators (2020\u20132025) with primary survey data collected from\n200 consumers and 50 merchants in the Delhi-NCR region.\nThe analysis highlights a significant \u201cInfrastructure Asymmetry,\u201d with India\nhaving around 11 million POS terminals but over 650 million UPI QR codes, resulting\nin a 60:1 acceptance gap. It also identifies a \u201cBifurcated Spending Model,\u201d where\nconsumers use UPI for transactions under |2,000 and retain credit cards for those\nabove |5,000. The Average Ticket Size (ATS) gap has widened, with credit cards at\n|5,300 and UPI at|1,480, marking a ratio of 3.58:1.\nPrimary data indicates significant generational divergence: 78% of Gen Z respon-\ndents (18\u201325 years) frequently leave home without a physical wallet, compared to\nonly 12% of Gen X respondents. Furthermore, 90% of small merchants resist the\nMerchant Discount Rate (MDR) associated with Credit-UPI transactions, posing a\ncritical barrier to adoption.\n1\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\nThe study concludes that the dominance of plastic cards as payment methods\nis waning, giving way to an \u201cInvisible Credit\u201d model where the funding source is\nseparate from the physical card. It suggests that banks adopt \u201cvirtual-first\u201d issuance\nstrategies and that regulators implement tiered MDR structures for a smoother\ntransition.\nKeywords\nPrimary Keywords:Unified Payments Interface (UPI); Credit on UPI; Physical Credit\nCards; Digital Payments; QR Code Payments; Form Factor; Payment Ecosystem\nSecondary Keywords:RuPay; Merchant Discount Rate (MDR); Point of Sale (POS);\nTechnology Acceptance Model (TAM); UTAUT; Financial Inclusion; Digital Public Infras-\ntructure (DPI); Consumer Behavior\n1 Introduction\nThe history of money is fundamentally a history of reducing friction. The transition\nfrom tangible currency to the \u201cPlastic Era\u201d began with the Diners Club in 1950,\nintroducing the concept of a universal charge card. This evolved into the PVC cards\nwe use today, standardized by Visa and Mastercard. However, the physical properties\nof PVC are now becoming a limitation in a digital-first economy.\n1.1 The Dominance of Card Networks\nThe global digital commerce system has long been underpinned by the Four-Party\nModel involving the Cardholder, Merchant, Acquirer, and Issuer, connected by a\nNetwork. While robust, this model suffers from high costs, particularly the Merchant\nDiscount Rate (MDR), and significant capital expenditure for Point-of-Sale (POS)\nterminals. This has limited credit acceptance in developing economies like India to\naffluent urban centers.\n1.2 The Indian Digital Payment Revolution\nIndia disrupted this status quo with the launch of the Unified Payments Interface\n(UPI) in 2016. UPI leverages a Virtual Payment Address (VPA) for real-time set-\ntlement, unlike the card networks\u2019 T+1 cycle. UPI\u2019s growth has been exponential,\naccounting for nearly 80% of digital payments in India by FY 2023-24.\n2\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\n1.3 The Concept of \u201cCredit on UPI\u201d\nThe RBI\u2019s 2022 decision to allow RuPay Credit Cards on UPI links the credit instru-\nment to the ubiquitous QR code infrastructure. This innovation threatens to make\nthe physical credit card obsolete, as users can now access credit at millions of small\nmerchants who do not own POS machines.\n2 Literature Review\nThis section reviews theoretical frameworks and empirical studies relevant to the\nshift from physical cards to digital interfaces.\n2.1 Theoretical Frameworks\nTechnology Acceptance Model (TAM):Davis\u2019s (1989) TAM suggests adoption is\ndriven by Perceived Usefulness (PU) and Perceived Ease of Use (PEOU).\n\u2022 PU:\u201cCredit on UPI\u201d offers liquidity for micro-transactions, a utility previously\nunavailable.\n\u2022 PEOU:The \u201cScan and Pay\u201d workflow reduces the friction of physical cards\n(locating wallet, inserting card, entering PIN).\nUnified Theory of Acceptance and Use of Technology (UTAUT):Venkatesh et\nal. (2003) identify Performance Expectancy, Effort Expectancy, Social Influence, and\nFacilitating Conditions.\n\u2022 Social Influence:The visual dominance of QR codes and peer adoption drives\nusage.\n\u2022 Facilitating Conditions:High smartphone penetration and the RBI\u2019s regulatory\nsupport enable this shift.\n2.2 Empirical Studies\nGlobal Parallels:Studies on Brazil\u2019sPixsystem show a strong substitution effect\nbetween instant payments and cash, with a \u201csoft substitution\u201d for debit cards (Duarte\net al., 2022). In China, the \u201cSuper App\u201d ecosystem (Alipay/WeChat) has shown that\nintegrated platforms offer superior user engagement compared to standalone cards.\nThe Indian Context:NITI Aayog (2023) highlights a volume vs. value divergence:\nUPI dominates volume, while credit cards retain value share. However, RBI surveys\nindicate that MDR remains a critical barrier for small merchants, driving them\n3\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\ntowards UPI over POS terminals. PwC projections suggest \u201cCredit on UPI\u201d could\ncapture 15\u201320% of credit card transaction value by 2029.\n3 Research Gap\nDespite extensive literature on digital payments (Cash vs. Digital), there is a critical\nvoid regarding the\u201cForm Factor War\u201dwithin the digital ecosystem itself (QR vs.\nPlastic).\n\u2022 Intra-Digital Cannibalization:Most studies focus on UPI displacing cash,\nignoring its impact on physical cards.\n\u2022Novelty of Credit on UPI:The specific phenomenon of linking credit cards to\nUPI is too recent (post-2023) to be covered by existing longitudinal studies.\n\u2022 Methodological Gap:Existing research often relies solely on macro-data or\nqualitative anecdotes.\nThis dissertation bridges these gaps by analyzing post-2023 data using a mixed-\nmethod approach to understand the behavioral and economic dynamics of the\npotential demise of the plastic card.\n4 Statement of the Problem\nThe core problem is theInfrastructure Asymmetryin the Indian payment ecosystem.\n\u2022 POS Terminals:Expensive and limited reach ( \u223c11 million units). Growth is\nslow and capital-intensive.\n\u2022 QR Codes:Cheap and ubiquitous ( >650 million units). Growth is exponential.\nThis 60:1 acceptance gap means traditional credit cards are unusable at the vast\nmajority of merchant locations. The introduction of \u201cCredit on UPI\u201d attempts to\nbridge this gap, but it poses an existential threat to the legacy card infrastructure.\nIf the physical card becomes obsolete, billions in infrastructure investment risk\nbecoming \u201cstranded assets.\u201d\nCentral Research Question: Is the convenience of the QR code powerful enough to dismantle\nthe established habit of the card swipe?\n4\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\n5 Rationale of the Study\nThe rationale for this study stems from the transformative potential of \u201cCredit on\nUPI\u201d for all stakeholders.\n\u2022 For Merchants:It offers Zero CAPEX (no POS machine needed) and potential\nrevenue expansion by accepting credit customers.\n\u2022 For Issuers:It enables \u201cVirtual Issuance,\u201d significantly reducing customer\nacquisition and logistics costs.\n\u2022 For Consumers:It provides ubiquitous credit access and a simplified, wallet-\nless experience.\nThis study is timely for evaluating the impact of the RBI\u2019s 2022 circular and\nproviding empirical data to guide industry strategy and policy formulation.\n6 Research Methodology\nThis study employs aMixed-Method Research Design, integrating quantitative\nanalysis of secondary macro-economic data with qualitative insights from primary\nsurveys.\nResearch Questions\n1. What is the comparative growth trajectory of UPI transactions versus physical\ncredit card POS transactions?\n2. Is there a statistically significant substitution effect between UPI adoption and\nphysical credit card usage?\n3. What factors drive consumer preference for \u201cScan\u201d (UPI) over \u201cSwipe\u201d (Card)?\n4. What is the merchant\u2019s willingness to accept \u201cCredit on UPI\u201d given the associ-\nated MDR?\n5. Is there a significant difference in the Average Ticket Size (ATS) between physi-\ncal and UPI-linked credit transactions?\nObjectives\nTo evaluate the impact of \u201cRuPay Credit on UPI\u201d on physical card usage, analyze\ngrowth trends, determine consumer drivers, assess merchant acceptance, and forecast\nfuture card issuance.\n5\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\nResearch Design\nDescriptive and Exploratory Mixed-Method Design covering FY 2020-21 to 2024-25.\nSecondary data is Pan-India; Primary data is from Delhi-NCR.\nSampling & Techniques\nStratified Random Samplingis used.\n\u2022Consumers:200 respondents (stratified by Age and Income).\n\u2022Merchants:50 respondents (stratified by Business Type and Location).\n\u2022Total Sample:250 respondents.\nSource/Instrument of Data\n\u2022 Secondary Data:RBI Payment System Indicators, NPCI Product Statistics,\nIndustry Reports.\n\u2022 Primary Data:Structured Consumer Questionnaire (Likert Scale) and Semi-\nstructured Merchant Interview Schedule.\nVariables\n\u2022Independent:UPI Volume, QR Deployment, Age, Income, Merchant Type.\n\u2022 Dependent:Credit Card Volume, POS Growth, Consumer Preference, Mer-\nchant Willingness.\n\u2022Moderating:Security, Rewards, MDR Awareness.\nStatistical Tools\nData will be analyzed using SPSS and Excel. Tools include Descriptive Statistics\n(Mean, SD), Correlation Analysis (Pearson\u2019s r), t-Tests, Chi-Square Tests, ANOVA,\nand CAGR calculation.\nOrganization of Data Analysis\n\u2022 Phase 1 (Macro):Trend visualization, CAGR computation, and Correlation\ntesting of secondary data.\n\u2022 Phase 2 (Behavioral):Demographic profiling, Hypothesis testing, and Cross-\ntabulation of primary survey data.\n6\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\n7 Expected Outcomes\nValidation of Partial Substitution:The study expects to find a \u201cBifurcated Spending\nModel\u201d: UPI will displace cards for low-value transactions (<|2,000), while physical\ncards will retain dominance for high-value purchases (>|5,000).\nConfirmation of ATS Gap:Physical Credit Card ATS is expected to be signif-\nicantly higher ( \u223c|5,000) compared to UPI ATS ( \u223c|1,500), with UPI-linked credit\nfalling in between.\nGenerational Divergence:Gen Z is expected to show an overwhelming pref-\nerence for \u201cwallet-less\u201d behavior, while older generations may stick to physical\ncards.\nMerchant MDR Resistance:Small merchants are expected to strongly resist\nMDR on Credit-UPI transactions, potentially threatening wide-scale adoption unless\nsubsidized.\n8 Scope and Limitations\nScope\nThe study covers Pan-India secondary trends and Delhi-NCR primary data from FY\n2020-21 to 2024-25. It focuses on retail POS transactions, excluding B2B and online\nCNP transactions.\nLimitations\n\u2022Data Nascent Stage:\u201cCredit on UPI\u201d is new; long-term data is limited.\n\u2022Regional Bias:Urban Delhi-NCR findings may not fully apply to rural India.\n\u2022 RuPay Exclusivity:Current restriction to RuPay limits generalizability to\nVisa/Mastercard users.\n\u2022Sample Size:250 respondents is a limitation for broader generalization.\n\u2022 Rapid Evolution:The fast-paced fintech landscape may render some findings\ntransient.\n9 Chapter Scheme\n1. Introduction:Evolution of payments, Four-Party Model, UPI Revolution,\nCredit on UPI concept, and Problem Statement.\n7\nSynopsis: UPI-Based vs. Traditional Credit Cards Princi\n2. Review of Literature:Theoretical frameworks (TAM, UTAUT), global parallels\n(Pix, Alipay), and Indian context.\n3. Research Methodology:Research design, sampling, data collection, and statis-\ntical tools.\n4. Data Analysis (Macro-Economic):Trend analysis of UPI vs. Card volumes,\ninfrastructure asymmetry, and ATS analysis.\n5. Data Analysis (Behavioral):Consumer and merchant survey analysis, demo-\ngraphic profiling, and hypothesis testing.\n6. Findings, Recommendations, and Conclusion:Summary of findings, manage-\nrial/policy implications, and future research directions.\n10 References\n1. Reserve Bank of India. (2024).Payment System Indicators: Annual Report 2023-24.\n2. Reserve Bank of India. (2022).Circular on Linking of RuPay Credit Cards to Unified\nPayments Interface (UPI).\n3. National Payments Corporation of India. (2023).The UPI Handbook: Product\nStatistics and Roadmap.\n4. NITI Aayog. (2023).Digital Payments: Trends, Issues and Opportunities.\n5. Davis, F. D. (1989). Perceived Usefulness, Perceived Ease of Use, and User\nAcceptance of Information Technology.MIS Quarterly.\n6. Venkatesh, V ., et al. (2003). User Acceptance of Information Technology: Toward\na Unified View.MIS Quarterly.\n7. Duarte, F., et al. (2022). Instant Payments and the Demise of Cash: Evidence\nfrom Brazil\u2019s Pix.\n8. Chen, L., & Zhang, Y. (2021). The Rise of QR Code Payments in China.Asian\nEconomic Policy Review.\n9. PwC India. (2024).The Indian Payments Handbook: 2024\u20132029.\n10. Worldline India. (2024).India Digital Payments Report: Annual Trends.\n11. Bhattacharya, H. (2023). Credit on UPI: A Game Changer for Financial Inclu-\nsion?Economic and Political Weekly.\n12. Modi, R., & Kumar, P . (2023). Merchant Discount Rate (MDR) and Small\nRetailers.Indian Journal of Commerce and Management.\n9\n";
+
+        // --- STATE & LOGIC ---
+        let currentQuestion = null;
+        let currentAnswer = null;
+        let bookmarks = JSON.parse(localStorage.getItem('viva_bookmarks')) || [];
+        let askedQuestions = JSON.parse(localStorage.getItem('viva_asked_questions')) || [];
+        let isFlipped = false;
+
+        // --- ELEMENTS ---
+        const apiKeyInput = document.getElementById('apiKey');
+        const apiKeyContainer = document.getElementById('apiKeyContainer');
+        const simulatorControls = document.getElementById('simulatorControls');
+        const flashcardContainer = document.getElementById('flashcardContainer');
+        const flashcardInner = document.getElementById('flashcardInner');
+        const loadingState = document.getElementById('loadingState');
+        const questionText = document.getElementById('questionText');
+        const answerText = document.getElementById('answerText');
+        const bookmarksPanel = document.getElementById('bookmarksPanel');
+        const bookmarksList = document.getElementById('bookmarksList');
+        const bookmarkBtn = document.getElementById('bookmarkBtn');
+
+        // --- INITIALIZATION ---
+        function init() {
+            const savedKey = localStorage.getItem('gemini_api_key');
+
+            // Check Dark Mode
+            if (localStorage.getItem('theme') === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            if (savedKey) {
+                apiKeyInput.value = savedKey;
+                showSimulator();
+            }
+        }
+
+        function saveApiKey() {
+            const key = apiKeyInput.value.trim();
+            if (key) {
+                localStorage.setItem('gemini_api_key', key);
+                showSimulator();
+            }
+        }
+
+        function resetApiKey() {
+            if(confirm("Are you sure you want to remove your API key?")) {
+                localStorage.removeItem('gemini_api_key');
+                location.reload();
+            }
+        }
+
+        function showSimulator() {
+            apiKeyContainer.classList.add('hidden');
+            simulatorControls.classList.remove('hidden');
+            flashcardContainer.classList.remove('hidden');
+        }
+
+        // --- FLASHCARD LOGIC ---
+        function flipCard() {
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                flashcardInner.classList.add('flipped');
+            } else {
+                flashcardInner.classList.remove('flipped');
+            }
+        }
+
+        function resetCard() {
+            isFlipped = false;
+            flashcardInner.classList.remove('flipped');
+        }
+
+        async function generateQuestion() {
+            const apiKey = localStorage.getItem('gemini_api_key');
+            if (!apiKey) return;
+
+            // UI Prep
+            resetCard();
+            flashcardContainer.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+            document.getElementById('generateBtn').disabled = true;
+
+            try {
+                // Short delay to allow card reset animation if needed, mostly for UX flow
+
+                const prompt = `
+                    You are a strict but fair PhD examiner.
+                    Based on the provided Research Synopsis, generate ONE viva voce question and a CONCISE, focused answer.
+
+                    CRITERIA:
+                    1. Question should be displayed in bold text suitable for a flashcard.
+                    2. Answer should be brief (2-3 sentences max) capturing the core insight.
+                    3. Do not repeat these questions: ${JSON.stringify(askedQuestions.slice(-5))}
+
+                    RESEARCH SYNOPSIS:
+                    ${RESEARCH_CONTEXT.substring(0, 5000)}... (truncated for efficiency, focus on Abstract/Findings)
+
+                    Respond in JSON: { "question": "...", "answer": "..." }
+                `;
+                // Note: sending full context is better, but for brevity in this thought block I truncated.
+                // In actual code below I use full variable.
+
+                const fullPrompt = `
+                    You are a strict but fair PhD examiner.
+                    Based on the provided Research Synopsis, generate ONE viva voce question and a CONCISE, focused answer.
+
+                    CRITERIA:
+                    1. Question should be conceptual or analytical.
+                    2. Answer should be brief (2-3 sentences max) capturing the core insight. DO NOT give long paragraphs.
+                    3. Do not repeat these questions: ${JSON.stringify(askedQuestions.slice(-5))}
+
+                    RESEARCH SYNOPSIS:
+                    ${RESEARCH_CONTEXT}
+
+                    Respond in JSON: { "question": "...", "answer": "..." }
+                `;
+
+                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent?key=${apiKey}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: fullPrompt }] }],
+                        generationConfig: { responseMimeType: "application/json" }
+                    })
+                });
+
+                if (!response.ok) throw new Error("API Request Failed");
+
+                const data = await response.json();
+                const text = data.candidates[0].content.parts[0].text;
+                const parsed = JSON.parse(text.replace(/^```json\s*/, '').replace(/\s*```$/, ''));
+
+                currentQuestion = parsed.question;
+                currentAnswer = parsed.answer;
+
+                // Update UI
+                questionText.textContent = currentQuestion;
+                answerText.textContent = currentAnswer;
+
+                // Track
+                askedQuestions.push(currentQuestion);
+                localStorage.setItem('viva_asked_questions', JSON.stringify(askedQuestions));
+
+                // Check bookmark state for new question
+                updateBookmarkIconState();
+
+            } catch (e) {
+                console.error(e);
+                alert("Error generating question. Please check API key/connection.");
+            } finally {
+                loadingState.classList.add('hidden');
+                flashcardContainer.classList.remove('hidden');
+                document.getElementById('generateBtn').disabled = false;
+            }
+        }
+
+        // --- BOOKMARKS ---
+        function toggleBookmarks() {
+            if (bookmarksPanel.classList.contains('hidden')) {
+                renderBookmarks();
+                bookmarksPanel.classList.remove('hidden');
+            } else {
+                bookmarksPanel.classList.add('hidden');
+            }
+        }
+
+        function saveBookmark(e) {
+            if (e) e.stopPropagation(); // Prevent card flip
+            if (!currentQuestion) return;
+
+            const existingIndex = bookmarks.findIndex(b => b.question === currentQuestion);
+            if (existingIndex >= 0) {
+                bookmarks.splice(existingIndex, 1); // Remove
+            } else {
+                bookmarks.push({
+                    question: currentQuestion,
+                    answer: currentAnswer,
+                    date: new Date().toISOString()
+                });
+            }
+            localStorage.setItem('viva_bookmarks', JSON.stringify(bookmarks));
+            updateBookmarkIconState();
+            renderBookmarks();
+        }
+
+        function updateBookmarkIconState() {
+            const isSaved = bookmarks.some(b => b.question === currentQuestion);
+            const icon = bookmarkBtn.querySelector('i');
+            if (isSaved) {
+                icon.classList.remove('far');
+                icon.classList.add('fas', 'text-indigo-600');
+            } else {
+                icon.classList.add('far');
+                icon.classList.remove('fas', 'text-indigo-600');
+            }
+        }
+
+        function deleteBookmark(index) {
+            const q = bookmarks[index].question;
+            bookmarks.splice(index, 1);
+            localStorage.setItem('viva_bookmarks', JSON.stringify(bookmarks));
+            renderBookmarks();
+            if (currentQuestion === q) updateBookmarkIconState();
+        }
+
+        function renderBookmarks() {
+            bookmarksList.innerHTML = '';
+            if (bookmarks.length === 0) {
+                bookmarksList.innerHTML = '<div class="text-center text-slate-500 mt-10">No questions saved yet.</div>';
+                return;
+            }
+
+            bookmarks.slice().reverse().forEach((b, reversedIndex) => {
+                // Calculate actual index in original array
+                const index = bookmarks.length - 1 - reversedIndex;
+
+                const el = document.createElement('div');
+                el.className = "bg-slate-50 dark:bg-slate-700/50 p-4 rounded-xl border border-slate-200 dark:border-slate-600";
+                el.innerHTML = `
+                    <div class="flex justify-between items-start gap-4">
+                        <div class="font-bold text-slate-800 dark:text-slate-200">${b.question}</div>
+                        <button onclick="deleteBookmark(${index})" class="text-slate-400 hover:text-red-500 transition">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="mt-2 text-sm text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-600 pt-2">
+                        ${b.answer}
+                    </div>
+                `;
+                bookmarksList.appendChild(el);
+            });
+        }
+
+        // --- UTILS ---
+        function toggleTheme() {
+            if (document.documentElement.classList.contains('dark')) {
+                document.documentElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                document.documentElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Start
+        window.addEventListener('load', init);
+
+    </script>
+</body>
+</html>
